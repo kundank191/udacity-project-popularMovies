@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/moviePoster_iv"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/image_height"
+        android:layout_marginEnd="@dimen/dimen_margin_end"
+        android:layout_marginStart="@dimen/dimen_margin_start"
+        android:layout_marginTop="@dimen/dimen_margin_Top"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintStart_toStartOf="parent"
+        android:scaleType="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/picture_placeholder"
+        android:contentDescription="@string/image_placeholder_content_description"/>
+
+    <TextView
+        android:id="@+id/movieName_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dimen_margin_bottom"
+        android:layout_marginEnd="@dimen/dimen_margin_end"
+        android:layout_marginStart="@dimen/dimen_margin_start"
+        android:layout_marginTop="@dimen/dimen_margin_Top"
+        android:text="@string/movie_placeholder_name"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/moviePoster_iv"
+        app:layout_constraintVertical_bias="0.047" />
+</android.support.constraint.ConstraintLayout>

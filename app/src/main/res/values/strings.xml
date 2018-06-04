@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Popular Movies</string>
+
+    <!-- TODO PASTE YOUR API KEY HERE -->
+    <string name="API_KEY">PASTE-YOUR-KEY-HERE</string>
+
+    <string name="movie_placeholder_name">A movie</string>
+    <string name="image_placeholder_content_description">Content Description</string>
 </resources>

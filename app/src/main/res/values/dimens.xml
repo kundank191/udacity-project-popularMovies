@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="dimen_margin_end">8dp</dimen>
+    <dimen name="dimen_margin_start">8dp</dimen>
+    <dimen name="dimen_margin_Top">16dp</dimen>
+    <dimen name="dimen_margin_bottom">8dp</dimen>
+    <dimen name="image_height">200dp</dimen>
+    <dimen name="dimen_inset_start">72dp</dimen>
+    <dimen name="dimen_title_text_margin_start">32dp</dimen>
+</resources>
