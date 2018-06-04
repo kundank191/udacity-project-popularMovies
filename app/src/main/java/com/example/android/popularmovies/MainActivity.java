@@ -12,7 +12,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        String response = NetworkUtils.getPopularMovieList("4f5b4f60ccf4f4142ccb1833ae13c850");
+        //TODO ADD YOUR API KEY IN String.xml FILE (GET IT FROM HERE : https://developers.themoviedb.org/3/getting-started )
+        String response = NetworkUtils.getPopularMovieList(getResources().getString(R.string.API_KEY));
         Log.i("12345",response);
     }
 }
