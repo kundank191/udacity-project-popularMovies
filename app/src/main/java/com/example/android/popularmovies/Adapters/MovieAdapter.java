@@ -1,6 +1,7 @@
 package com.example.android.popularmovies.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.android.popularmovies.DetailsActivity;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.Utils.NetworkUtils;
 import com.example.android.popularmovies.models.Movie;
@@ -24,6 +26,9 @@ import butterknife.ButterKnife;
  * RecyclerView adapter for movie objects to be displayed in the MainActivity
  */
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
+
+    //This value will be used in intent
+    private final String MOVIE_OBJECT = "10123";
 
     // View holder class for the RecyclerView row layout elements will be referenced here
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -65,15 +70,27 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull MovieAdapter.ViewHolder holder, int position) {
         //Getting a Movie object with respect to position
-        Movie movie = mMovieList.get(position);
+        final Movie movie = mMovieList.get(position);
 
         //Populating views
-        holder.movieNameTV.setText(movie.getMovieName());
+        holder.movieNameTV.setText(movie.getMovieTitle());
+        //The content description of the imageView will be the title of the movie
+        holder.moviePosterIV.setContentDescription(movie.getMovieTitle());
         Picasso.with(mContext)
-                .load(NetworkUtils.getImageURL(movie.getPosterPath()))
+                .load(NetworkUtils.getPosterImageURL(movie.getPosterPath()))
                 .placeholder(R.drawable.picture_placeholder)
                 .error(R.drawable.ic_photo_broken)
                 .into(holder.moviePosterIV);
+
+        //When an Item is clicked then it will open detail activity with passed data
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, DetailsActivity.class);
+                intent.putExtra(MOVIE_OBJECT,movie);
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override
