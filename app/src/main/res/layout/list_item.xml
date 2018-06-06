@@ -4,24 +4,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/moviePoster_iv"
         android:layout_width="match_parent"
         android:layout_height="@dimen/image_height"
-        android:layout_marginEnd="@dimen/dimen_margin_end"
-        android:layout_marginStart="@dimen/dimen_margin_start"
-        android:layout_marginTop="@dimen/dimen_margin_Top"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
-        android:scaleType="center"
+        android:scaleType="centerCrop"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/picture_placeholder"
+        app:srcCompat="@drawable/loading_poster"
         android:contentDescription="@string/image_placeholder_content_description"/>
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/movieName_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
