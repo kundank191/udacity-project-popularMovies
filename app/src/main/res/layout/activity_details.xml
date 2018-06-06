@@ -1,132 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DetailsActivity">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar_layout"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/backdrop_height"
-        android:background="@color/textColorPrimaryLight">
-
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/collapsing_toolbar_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:collapsedTitleTextAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse"
-            app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginStart="@dimen/dimen_title_text_margin_start"
-            app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_collapseMode="parallax">
-
-                <ImageView
-                    android:id="@+id/movieBackdrop_iv"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:contentDescription="@string/image_placeholder_content_description"
-                    android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/loading_image" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/scrim" />
-            </FrameLayout>
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/app_bar_detail_activity"
-                android:layout_width="match_parent"
-                android:layout_height="?actionBarSize"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:contentInsetStart="@dimen/dimen_inset_start"
-                app:layout_collapseMode="pin"
-                app:navigationIcon="@drawable/arrow_back_white" />
-
-        </android.support.design.widget.CollapsingToolbarLayout>
-    </android.support.design.widget.AppBarLayout>
-
-    <ImageView
-        android:elevation="4dp"
-        android:id="@+id/moviePoster_iv"
-        android:src="@drawable/loading_poster"
-        android:layout_width="@dimen/small_poster_width"
-        android:layout_height="@dimen/small_poster_height"
-        android:layout_marginStart="@dimen/margin_start_16dp"
-        android:layout_marginTop="@dimen/margin_top_image_poster"
-        android:contentDescription="@string/image_placeholder_content_description" />
-
-    <ScrollView
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:nestedScrollingEnabled="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:orientation="vertical">
 
-        <android.support.constraint.ConstraintLayout
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/app_bar_detail_activity"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="@dimen/backdrop_height"
+            android:background="@color/colorPrimaryDark"
+            app:navigationIcon="@drawable/arrow_back_white" />
 
-            <TextView
-                android:id="@+id/movieTitle_tv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/dimen_margin_end"
-                android:layout_marginStart="@dimen/dimen_margin_152dp"
-                android:layout_marginTop="@dimen/margin_top_8dp"
-                android:text="@string/movie_placeholder_name"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/moviePoster_iv"
+            android:layout_width="@dimen/small_poster_width"
+            android:layout_height="@dimen/small_poster_height"
+            android:layout_marginBottom="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="@dimen/margin_top_image_poster"
+            android:contentDescription="@string/image_placeholder_content_description"
+            android:fadingEdgeLength="4dp"
+            android:src="@drawable/loading_poster"
+            app:layout_constraintBottom_toTopOf="@+id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/movieReleaseDate_tv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/dimen_margin_end"
-                android:layout_marginStart="@dimen/dimen_margin_152dp"
-                android:layout_marginTop="@dimen/margin_top_8dp"
-                android:text="@string/release_date"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/movieTitle_tv" />
+        <TextView
+            android:id="@+id/movieTitle_tv"
+            android:layout_width="@dimen/width_0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dimen_margin_end"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/movie_placeholder_name"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/moviePoster_iv"
+            app:layout_constraintTop_toBottomOf="@+id/app_bar_detail_activity" />
 
-            <TextView
-                android:id="@+id/rating_tv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/dimen_margin_end"
-                android:layout_marginStart="@dimen/dimen_margin_152dp"
-                android:layout_marginTop="@dimen/margin_top_8dp"
-                android:text="@string/ratings"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/movieReleaseDate_tv" />
+        <TextView
+            android:id="@+id/movieReleaseDate_tv"
+            android:layout_width="@dimen/width_0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dimen_margin_end"
+            android:layout_marginStart="@dimen/dimen_margin_start"
+            android:layout_marginTop="@dimen/margin_top_8dp"
+            android:text="@string/release_date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/moviePoster_iv"
+            app:layout_constraintTop_toBottomOf="@+id/movieTitle_tv" />
 
-            <TextView
-                android:id="@+id/movieSynopsis_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:layout_marginEnd="@dimen/dimen_margin_start_16dp"
-                android:layout_marginStart="@dimen/dimen_margin_start_16dp"
-                android:layout_marginTop="@dimen/dimen_synopsis_margin_top"
-                android:text="@string/synopsis"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </android.support.constraint.ConstraintLayout>
+        <TextView
+            android:id="@+id/rating_tv"
+            android:layout_width="@dimen/width_0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dimen_margin_end"
+            android:layout_marginStart="@dimen/dimen_margin_start"
+            android:layout_marginTop="@dimen/margin_top_8dp"
+            android:text="@string/ratings"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/moviePoster_iv"
+            app:layout_constraintTop_toBottomOf="@+id/movieReleaseDate_tv" />
 
-    </ScrollView>
+        <TextView
+            android:id="@+id/movieSynopsis_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimen_margin_bottom"
+            android:layout_marginEnd="@dimen/dimen_margin_start_16dp"
+            android:layout_marginStart="@dimen/dimen_margin_start_16dp"
+            android:layout_marginTop="@dimen/dimen_margin_top_16dp"
+            android:text="@string/synopsis"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline" />
 
-</android.support.design.widget.CoordinatorLayout>
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="336dp" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</ScrollView>

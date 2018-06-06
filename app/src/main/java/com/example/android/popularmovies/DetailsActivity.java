@@ -1,6 +1,9 @@
 package com.example.android.popularmovies;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
@@ -10,6 +13,7 @@ import android.widget.Toast;
 import com.example.android.popularmovies.Utils.NetworkUtils;
 import com.example.android.popularmovies.models.Movie;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.Objects;
 
@@ -21,8 +25,6 @@ public class DetailsActivity extends AppCompatActivity {
     private final String MOVIE_OBJECT = "10123";
     @BindView(R.id.app_bar_detail_activity)
     android.support.v7.widget.Toolbar mToolbar;
-    @BindView(R.id.movieBackdrop_iv)
-    ImageView movieBackdrop_iv;
     @BindView(R.id.moviePoster_iv)
     ImageView moviePoster_iv;
     @BindView(R.id.movieTitle_tv)
@@ -62,7 +64,24 @@ public class DetailsActivity extends AppCompatActivity {
                 .load(NetworkUtils.getBackdropImageURL(movie.getBackdropPath()))
                 .placeholder(R.drawable.loading_image)
                 .error(R.drawable.ic_photo_broken)
-                .into(movieBackdrop_iv);
+                .into(new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        mToolbar.setBackground(new BitmapDrawable(getBaseContext().getResources(),bitmap));
+                    }
+
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {
+                        mToolbar.setBackground(errorDrawable);
+
+                    }
+
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+                        mToolbar.setBackground(placeHolderDrawable);
+
+                    }
+                });
         ;
         Picasso.with(this)
                 .load(NetworkUtils.getPosterImageURL(movie.getPosterPath()))
@@ -70,7 +89,7 @@ public class DetailsActivity extends AppCompatActivity {
                 .error(R.drawable.ic_photo_broken)
                 .into(moviePoster_iv);
 
-        String ratingText = (movie.getVoteAverage()/2) + " \u25CF " + movie.getVoteCount() + " " + getResources().getString(R.string.ratings);
+        String ratingText = (movie.getVoteAverage()/2) + " \u2b50 " + movie.getVoteCount() + " " + getResources().getString(R.string.ratings);
         ratingTV.setText(ratingText);
         movieNameTV.setText(movie.getMovieTitle());
         movieReleaseDateTV.setText(movie.getReleaseDate());
