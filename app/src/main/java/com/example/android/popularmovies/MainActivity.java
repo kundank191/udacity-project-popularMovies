@@ -1,5 +1,6 @@
 package com.example.android.popularmovies;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
@@ -34,7 +35,9 @@ public class MainActivity extends AppCompatActivity {
     private String API_KEY;
     final private int CODE_POPULAR_MOVIE = 123;
     final private int CODE_NOW_PLAYING_MOVIE = 124;
+    final private String SAVED_MOVIE_LIST = "saved movie list";
     private int NUM_COLUMNS_GRID_LAYOUT = 2;
+    private MovieViewModel viewModel;
     //Binding views
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
@@ -58,8 +61,16 @@ public class MainActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        //Initially when app is loaded it will show popular movies
-        downloadAndPopulateMovieData(CODE_POPULAR_MOVIE);
+        //Initializing view model
+        viewModel = ViewModelProviders.of(this).get(MovieViewModel.class);
+        //If View model has a movie list then it will be displayed else new data will be downloaded
+        if(viewModel.getMovieList() != null) {
+            populateData(viewModel.getMovieList());
+        } else {
+            //Initially when app is loaded it will show popular movies
+            downloadAndPopulateMovieData(CODE_POPULAR_MOVIE);
+
+        }
     }
 
     /**
@@ -87,7 +98,9 @@ public class MainActivity extends AppCompatActivity {
                     .getAsJSONObject(new JSONObjectRequestListener() {
                         @Override
                         public void onResponse(JSONObject response) {
-                            populateData(JSONUtils.getMovieList(response));
+                            //Updating view model with new data and using this data to populate views
+                            viewModel.setMovieList(JSONUtils.getMovieList(response));
+                            populateData(viewModel.getMovieList());
                         }
 
                         @Override
@@ -186,4 +199,5 @@ public class MainActivity extends AppCompatActivity {
         mEmptyStateView.setVisibility(View.GONE);
         mNoInternetView.setVisibility(View.VISIBLE);
     }
+
 }
