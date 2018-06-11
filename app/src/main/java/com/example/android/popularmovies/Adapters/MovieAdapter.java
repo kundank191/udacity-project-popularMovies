@@ -78,8 +78,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         holder.moviePosterIV.setContentDescription(movie.getMovieTitle());
         Picasso.with(mContext)
                 .load(NetworkUtils.getPosterImageURL(movie.getPosterPath()))
-                .placeholder(R.drawable.picture_placeholder)
-                .error(R.drawable.ic_photo_broken)
+                .placeholder(R.drawable.image_place_holder_poster)
+                .error(R.drawable.broken_image_poster)
                 .into(holder.moviePosterIV);
 
         //When an Item is clicked then it will open detail activity with passed data
@@ -91,6 +91,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                 mContext.startActivity(intent);
             }
         });
+    }
+
+    public void setMovieList(List<Movie> mMovieList) {
+        this.mMovieList = mMovieList;
+        notifyDataSetChanged();
     }
 
     @Override

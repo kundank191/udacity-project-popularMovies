@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/colorPrimaryDark"
     android:layout_height="match_parent"
     tools:context=".DetailsActivity">
 
@@ -23,11 +24,12 @@
             android:id="@+id/moviePoster_iv"
             android:layout_width="@dimen/small_poster_width"
             android:layout_height="@dimen/small_poster_height"
-            android:layout_marginBottom="16dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginBottom="@dimen/margin_bottom_16dp"
+            android:layout_marginStart="@dimen/margin_start_16dp"
             android:layout_marginTop="@dimen/margin_top_image_poster"
             android:contentDescription="@string/image_placeholder_content_description"
             android:fadingEdgeLength="4dp"
+            android:fadingEdge="vertical"
             android:src="@drawable/loading_poster"
             app:layout_constraintBottom_toTopOf="@+id/guideline"
             app:layout_constraintStart_toStartOf="parent"
@@ -38,10 +40,11 @@
             android:layout_width="@dimen/width_0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/dimen_margin_end"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="@dimen/dimen_margin_start"
+            android:layout_marginTop="@dimen/dimen_margin_top_16dp"
             android:text="@string/movie_placeholder_name"
-            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textColor="@color/textColorPrimaryLight"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/moviePoster_iv"
             app:layout_constraintTop_toBottomOf="@+id/app_bar_detail_activity" />
@@ -55,6 +58,7 @@
             android:layout_marginTop="@dimen/margin_top_8dp"
             android:text="@string/release_date"
             app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="@color/textColorSecondaryLight"
             app:layout_constraintStart_toEndOf="@+id/moviePoster_iv"
             app:layout_constraintTop_toBottomOf="@+id/movieTitle_tv" />
 
@@ -66,6 +70,7 @@
             android:layout_marginStart="@dimen/dimen_margin_start"
             android:layout_marginTop="@dimen/margin_top_8dp"
             android:text="@string/ratings"
+            android:textColor="@color/textColorSecondaryLight"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/moviePoster_iv"
             app:layout_constraintTop_toBottomOf="@+id/movieReleaseDate_tv" />
@@ -77,14 +82,13 @@
             android:layout_marginBottom="@dimen/dimen_margin_bottom"
             android:layout_marginEnd="@dimen/dimen_margin_start_16dp"
             android:layout_marginStart="@dimen/dimen_margin_start_16dp"
-            android:layout_marginTop="@dimen/dimen_margin_top_16dp"
             android:text="@string/synopsis"
-            android:textAlignment="center"
+            android:textColor="@color/textColorSecondaryLight"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline" />
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <android.support.constraint.Guideline
             android:id="@+id/guideline"
@@ -92,6 +96,18 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="336dp" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_start_16dp"
+            android:layout_marginTop="@dimen/dimen_margin_top_16dp"
+            android:text="@string/overview"
+            android:textColor="@color/textColorPrimaryLight"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline" />
 
     </android.support.constraint.ConstraintLayout>
 
