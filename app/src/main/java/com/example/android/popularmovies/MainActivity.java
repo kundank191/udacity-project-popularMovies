@@ -1,7 +1,9 @@
 package com.example.android.popularmovies;
 
+import android.app.ActivityOptions;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +19,7 @@ import android.widget.ProgressBar;
 
 import com.example.android.popularmovies.Adapters.MovieAdapter;
 import com.example.android.popularmovies.Interfaces.JsonDataDownloadInterface;
+import com.example.android.popularmovies.Interfaces.ListItemClickInterface;
 import com.example.android.popularmovies.Utils.JSONUtils;
 import com.example.android.popularmovies.Utils.NetworkUtils;
 import com.example.android.popularmovies.models.Movie;
@@ -28,7 +31,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements JsonDataDownloadInterface {
+public class MainActivity extends AppCompatActivity implements JsonDataDownloadInterface, ListItemClickInterface {
 
     private String API_KEY;
     final private int CODE_POPULAR_MOVIE = 123;
@@ -137,6 +140,24 @@ public class MainActivity extends AppCompatActivity implements JsonDataDownloadI
             mRecyclerView.setVisibility(View.VISIBLE);
             mNoInternetView.setVisibility(View.GONE);
         }
+    }
+
+    /**
+     * Handles what happens when a recycle view's item is clicked
+     * @param key this will be used to extract the movie object in the details activity from intent extras
+     * @param movie object to be passed
+     */
+    @Override
+    public void onListItemClicked(String key, Movie movie,View sharedView) {
+        Intent intent = new Intent(this,DetailsActivity.class);
+        intent.putExtra(key,movie);
+        //Exiting main activity with a transition
+        Bundle bundle = ActivityOptions
+                            .makeSceneTransitionAnimation(this
+                            ,sharedView
+                            ,sharedView.getTransitionName())
+                            .toBundle();
+        this.startActivity(intent,bundle);
     }
 
     /**

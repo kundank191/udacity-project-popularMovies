@@ -6,6 +6,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,8 +63,8 @@ public class DetailsActivity extends AppCompatActivity {
     private void populateUI(Movie movie) {
         Picasso.with(this)
                 .load(NetworkUtils.getBackdropImageURL(movie.getBackdropPath()))
-                .placeholder(R.drawable.loading_image)
-                .error(R.drawable.ic_photo_broken)
+                .placeholder(R.drawable.image_place_holder_back_drop)
+                .error(R.drawable.broken_image_back_drop)
                 .into(new Target() {
                     @Override
                     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
@@ -85,8 +86,8 @@ public class DetailsActivity extends AppCompatActivity {
         ;
         Picasso.with(this)
                 .load(NetworkUtils.getPosterImageURL(movie.getPosterPath()))
-                .placeholder(R.drawable.loading_poster)
-                .error(R.drawable.ic_photo_broken)
+                .placeholder(R.drawable.image_place_holder_poster)
+                .error(R.drawable.broken_image_poster)
                 .into(moviePoster_iv);
 
         String ratingText = (movie.getVoteAverage()/2) + " \u2b50 " + movie.getVoteCount() + " " + getResources().getString(R.string.ratings);
@@ -95,6 +96,16 @@ public class DetailsActivity extends AppCompatActivity {
         movieReleaseDateTV.setText(movie.getReleaseDate());
         movieSynopsisTV.setText(movie.getMovieSynopsis());
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
+        return true;
     }
 
     private void closeOnError() {

@@ -1,7 +1,6 @@
 package com.example.android.popularmovies.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.android.popularmovies.DetailsActivity;
+import com.example.android.popularmovies.Interfaces.ListItemClickInterface;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.Utils.NetworkUtils;
 import com.example.android.popularmovies.models.Movie;
@@ -68,7 +67,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
     //Binds the data to the views
     @Override
-    public void onBindViewHolder(@NonNull MovieAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final MovieAdapter.ViewHolder holder, int position) {
         //Getting a Movie object with respect to position
         final Movie movie = mMovieList.get(position);
 
@@ -86,9 +85,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, DetailsActivity.class);
-                intent.putExtra(MOVIE_OBJECT,movie);
-                mContext.startActivity(intent);
+                ListItemClickInterface onClickInterface = (ListItemClickInterface) mContext;
+                onClickInterface.onListItemClicked(MOVIE_OBJECT,movie,holder.moviePosterIV);
             }
         });
     }

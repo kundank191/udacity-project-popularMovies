@@ -9,13 +9,14 @@
     <ImageView
         android:id="@+id/moviePoster_iv"
         android:layout_width="match_parent"
+        android:transitionName="@string/shared_poster_image"
         android:layout_height="@dimen/image_height"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
         android:scaleType="centerCrop"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/loading_poster"
+        app:srcCompat="@drawable/image_place_holder_poster"
         android:contentDescription="@string/image_placeholder_content_description"/>
 
     <TextView
