@@ -15,10 +15,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
-import com.androidnetworking.common.ANRequest;
-import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.example.android.popularmovies.Adapters.MovieAdapter;
+import com.example.android.popularmovies.Interfaces.JsonDataDownloadInterface;
 import com.example.android.popularmovies.Utils.JSONUtils;
 import com.example.android.popularmovies.Utils.NetworkUtils;
 import com.example.android.popularmovies.models.Movie;
@@ -30,7 +28,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements JsonDataDownloadInterface {
 
     private String API_KEY;
     final private int CODE_POPULAR_MOVIE = 123;
@@ -64,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         //Initializing view model
         viewModel = ViewModelProviders.of(this).get(MovieViewModel.class);
         //If View model has a movie list then it will be displayed else new data will be downloaded
-        if(viewModel.getMovieList() != null) {
+        if (viewModel.getMovieList() != null) {
             populateData(viewModel.getMovieList());
         } else {
             //Initially when app is loaded it will show popular movies
@@ -75,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Takes in a preference code and then calls populateData(param) to display movie list in the recycler view
+     *
      * @param movieCode the preference according to which movies are to be displayed
      */
     private void downloadAndPopulateMovieData(int movieCode) {
@@ -82,41 +81,47 @@ public class MainActivity extends AppCompatActivity {
         if (isNetworkConnected()) {
             //A progress bar will be shown before download begins
             showLoadingScreen();
-            ANRequest.GetRequestBuilder requestBuilder;
-            //Build request builder according to the preference code
+            //get data according to the preference code
             switch (movieCode) {
                 case CODE_POPULAR_MOVIE:
-                    requestBuilder = NetworkUtils.requestPopularMovieList(API_KEY);
+                    NetworkUtils.getPopularMovieList(this, API_KEY);
                     break;
                 case CODE_NOW_PLAYING_MOVIE:
-                    requestBuilder = NetworkUtils.requestNowPlayingMovieList(API_KEY);
+                    NetworkUtils.getNowPlayingMovieList(this, API_KEY);
                     break;
-                default:
-                    return;
             }
-            requestBuilder.build()
-                    .getAsJSONObject(new JSONObjectRequestListener() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            //Updating view model with new data and using this data to populate views
-                            viewModel.setMovieList(JSONUtils.getMovieList(response));
-                            populateData(viewModel.getMovieList());
-                        }
-
-                        @Override
-                        public void onError(ANError anError) {
-                            Log.e("MainActivity", anError.toString());
-                            showErrorUI();
-                        }
-                    });
         } else {
             showNoInternetUI();
         }
     }
 
     /**
+     * This method is triggered by the networkUtils class , when data is downloaded from the internet successfully
+     *
+     * @param response the response from the internet
+     */
+    @Override
+    public void onResponse(JSONObject response) {
+        //Updating view model with new data and using this data to populate views
+        viewModel.setMovieList(JSONUtils.getMovieList(response));
+        populateData(viewModel.getMovieList());
+    }
+
+    /**
+     * This method is triggered by the networkUtils class , when there was an error getting data
+     *
+     * @param error the error which occurred while downloading data
+     */
+    @Override
+    public void onError(String error) {
+        Log.e("MainActivity", error);
+        showErrorUI();
+    }
+
+    /**
      * Populates the recycler view with movie list
      * if movie list is null it will show an error screen
+     *
      * @param movieList a list of movie objects
      */
     private void populateData(List<Movie> movieList) {
@@ -150,10 +155,12 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_popular_movies:
+                //populates the recycler view with updated popular movie list
                 downloadAndPopulateMovieData(CODE_POPULAR_MOVIE);
                 toolbar.setTitle(R.string.popular_movies);
                 break;
             case R.id.menu_now_playing_movies:
+                //populates the recycler view with updated now playing movie list
                 downloadAndPopulateMovieData(CODE_NOW_PLAYING_MOVIE);
                 toolbar.setTitle(R.string.now_playing_movies);
                 break;
@@ -163,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * It checks if the device is connected to the internet or not
+     *
      * @return a boolean value indicating the state of network
      */
     private boolean isNetworkConnected() {
@@ -199,5 +207,4 @@ public class MainActivity extends AppCompatActivity {
         mEmptyStateView.setVisibility(View.GONE);
         mNoInternetView.setVisibility(View.VISIBLE);
     }
-
 }
