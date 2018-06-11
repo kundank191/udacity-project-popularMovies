@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/colorPrimary"
     tools:context=".MainActivity">
 
     <android.support.v7.widget.Toolbar
@@ -22,7 +23,8 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layoutAnimation="@anim/layout_animation_slide_bottom"/>
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -48,6 +50,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/textColorPrimaryLight"
                 android:layout_margin="@dimen/margin"
                 android:text="@string/error_retrieving_data" />
         </LinearLayout>
@@ -68,6 +71,7 @@
 
             <TextView
                 android:layout_width="wrap_content"
+                android:textColor="@color/textColorPrimaryLight"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin"
                 android:text="@string/no_internet_connection" />
