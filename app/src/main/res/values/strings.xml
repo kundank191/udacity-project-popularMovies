@@ -2,7 +2,7 @@
     <string name="app_name">Popular Movies</string>
 
     <!-- TODO PASTE YOUR API KEY HERE (GET IT FROM HERE : https://developers.themoviedb.org/3/getting-started)-->
-    <string name="API_KEY">4f5b4f60ccf4f4142ccb1833ae13c850</string>
+    <string name="API_KEY">PASTE-YOUR-API-KEY-HERE</string>
     <!-- Name of the shared view for transition -->
     <string name="shared_poster_image">Shared poster image</string>
 
