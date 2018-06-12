@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements JsonDataDownloadI
 
     private String API_KEY;
     final private int CODE_POPULAR_MOVIE = 123;
-    final private int CODE_TOP_RATED_MOVIES = 124;
+    final private int CODE_TOP_RATED_MOVIES = 126;
     private int NUM_COLUMNS_GRID_LAYOUT = 2;
     private MovieViewModel viewModel;
     //Binding views
