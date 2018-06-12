@@ -52,7 +52,7 @@ public class NetworkUtils {
     }
 
     /**
-     * Using Fast Android Networking library to fetch data from internet , data is transferred to activity using interfaces
+     * Using Fast Android Networking library to fetch data from internet , data is transferred to activity using an interface
      *
      * @param baseURL from where data is to be downloaded
      * @param API_KEY to access the database

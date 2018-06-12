@@ -8,8 +8,9 @@ import java.util.List;
 
 /**
  * Created by Kundan on 09-06-2018.
+ * This view model class will store data across configuration changes
  */
-public class MovieViewModel extends ViewModel {
+class MovieViewModel extends ViewModel {
 
     public List<Movie> getMovieList() {
         return movieList;

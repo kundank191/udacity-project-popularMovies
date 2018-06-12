@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/colorPrimary"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
     <android.support.v7.widget.Toolbar
@@ -24,7 +24,7 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layoutAnimation="@anim/layout_animation_slide_bottom"/>
+            android:layoutAnimation="@anim/layout_animation_slide_bottom" />
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -32,50 +32,30 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
 
-        <LinearLayout
+
+        <!-- This layout will be visible when there is error getting data -->
+        <TextView
             android:id="@+id/empty_state_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:orientation="vertical">
+            android:layout_margin="@dimen/margin"
+            android:drawablePadding="@dimen/dimen_drawable_padding"
+            android:drawableTop="@drawable/broken_link"
+            android:text="@string/error_retrieving_data"
+            android:textColor="@color/textColorPrimaryLight" />
 
-            <ImageView
-                android:id="@+id/empty_state_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:contentDescription="@string/error_retrieving_data"
-                android:src="@drawable/broken_link" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/textColorPrimaryLight"
-                android:layout_margin="@dimen/margin"
-                android:text="@string/error_retrieving_data" />
-        </LinearLayout>
-
-        <LinearLayout
+        <!-- This layout will be visible when there is no internet connection -->
+        <TextView
             android:id="@+id/no_internet_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:contentDescription="@string/no_internet_connection"
-                android:src="@drawable/no_internet" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:textColor="@color/textColorPrimaryLight"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin"
-                android:text="@string/no_internet_connection" />
-        </LinearLayout>
+            android:layout_margin="@dimen/margin"
+            android:drawablePadding="@dimen/dimen_drawable_padding"
+            android:drawableTop="@drawable/no_internet"
+            android:text="@string/no_internet_connection"
+            android:textColor="@color/textColorPrimaryLight" />
 
     </FrameLayout>
 

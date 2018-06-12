@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 
 public class DetailsActivity extends AppCompatActivity {
 
-    private final String MOVIE_OBJECT = "10123";
+    public static final String MOVIE_OBJECT_INTENT_KEY = "10123";
     @BindView(R.id.app_bar_detail_activity)
     android.support.v7.widget.Toolbar mToolbar;
     @BindView(R.id.moviePoster_iv)
@@ -42,14 +42,16 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
+        //Binding views
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        //Get the intent and then retrieve the movie object from it
         Intent intent = getIntent();
         if (intent != null) {
-            Movie movie = (Movie) intent.getSerializableExtra(MOVIE_OBJECT);
+            Movie movie = (Movie) intent.getSerializableExtra(MOVIE_OBJECT_INTENT_KEY);
             if (movie != null) {
                 populateUI(movie);
             } else {
@@ -60,7 +62,13 @@ public class DetailsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This function populates the UI with data
+     *
+     * @param movie from this object all the data will be taken out to populate views
+     */
     private void populateUI(Movie movie) {
+        //Setting the backdrop image to be the background of the toolbar
         Picasso.with(this)
                 .load(NetworkUtils.getBackdropImageURL(movie.getBackdropPath()))
                 .placeholder(R.drawable.image_place_holder_back_drop)
@@ -68,7 +76,7 @@ public class DetailsActivity extends AppCompatActivity {
                 .into(new Target() {
                     @Override
                     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        mToolbar.setBackground(new BitmapDrawable(getBaseContext().getResources(),bitmap));
+                        mToolbar.setBackground(new BitmapDrawable(getBaseContext().getResources(), bitmap));
                     }
 
                     @Override
@@ -83,14 +91,14 @@ public class DetailsActivity extends AppCompatActivity {
 
                     }
                 });
-        ;
         Picasso.with(this)
                 .load(NetworkUtils.getPosterImageURL(movie.getPosterPath()))
                 .placeholder(R.drawable.image_place_holder_poster)
                 .error(R.drawable.broken_image_poster)
                 .into(moviePoster_iv);
 
-        String ratingText = (movie.getVoteAverage()/2) + " \u2b50 " + movie.getVoteCount() + " " + getResources().getString(R.string.ratings);
+        //This will populate the ratings text view \u2b50 is a code for a star
+        String ratingText = (movie.getVoteAverage() / 2) + " \u2b50 " + movie.getVoteCount() + "  " + getResources().getString(R.string.ratings);
         ratingTV.setText(ratingText);
         movieNameTV.setText(movie.getMovieTitle());
         movieReleaseDateTV.setText(movie.getReleaseDate());
@@ -98,9 +106,15 @@ public class DetailsActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * The home button has the same function as the back button , so that the shared element transition is reversed
+     *
+     * @param item menu item
+     * @return true
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
                 break;
@@ -108,6 +122,9 @@ public class DetailsActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * If some error occurs this function will handle it
+     */
     private void closeOnError() {
         Toast.makeText(this, R.string.detail_activity_error_message, Toast.LENGTH_SHORT).show();
         finish();

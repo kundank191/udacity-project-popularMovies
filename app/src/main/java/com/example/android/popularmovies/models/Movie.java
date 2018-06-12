@@ -1,34 +1,39 @@
 package com.example.android.popularmovies.models;
 
+import java.io.Serializable;
+
 /**
  * Created by Kundan on 03-06-2018.
  * A movie object which will store all the data related to a movie
  * It also has all the getter and setter methods for all the parameters
+ * It implements Serializable so that it can be passed with intents
  */
-public class Movie {
+public class Movie implements Serializable {
 
-    private String movieName;
+    private String movieTitle;
     private String movieSynopsis;
     private String backdropPath;
     private String posterPath;
-    private Float movieRatings;
-    private Integer ratingsCount;
+    private Double voteAverage;
+    private Integer voteCount;
+    private String releaseDate;
 
-    public Movie(String movieName, String movieSynopsis, String backdropPath, String posterPath, Float movieRatings, Integer ratingsCount) {
-        this.movieName = movieName;
+    public Movie(String movieName, String movieSynopsis, String backdropPath, String posterPath, Double movieRatings, Integer ratingsCount, String releaseDate) {
+        this.movieTitle = movieName;
         this.movieSynopsis = movieSynopsis;
         this.backdropPath = backdropPath;
         this.posterPath = posterPath;
-        this.movieRatings = movieRatings;
-        this.ratingsCount = ratingsCount;
+        this.voteAverage = movieRatings;
+        this.voteCount = ratingsCount;
+        this.releaseDate = releaseDate;
     }
 
-    public String getMovieName() {
-        return movieName;
+    public String getMovieTitle() {
+        return movieTitle;
     }
 
-    public void setMovieName(String movieName) {
-        this.movieName = movieName;
+    public void setMovieTitle(String movieTitle) {
+        this.movieTitle = movieTitle;
     }
 
     public String getMovieSynopsis() {
@@ -55,19 +60,27 @@ public class Movie {
         this.posterPath = posterPath;
     }
 
-    public Float getMovieRatings() {
-        return movieRatings;
+    public Double getVoteAverage() {
+        return voteAverage;
     }
 
-    public void setMovieRatings(Float movieRatings) {
-        this.movieRatings = movieRatings;
+    public void setVoteAverage(Double voteAverage) {
+        this.voteAverage = voteAverage;
     }
 
-    public Integer getRatingsCount() {
-        return ratingsCount;
+    public Integer getVoteCount() {
+        return voteCount;
     }
 
-    public void setRatingsCount(Integer ratingsCount) {
-        this.ratingsCount = ratingsCount;
+    public void setVoteCount(Integer voteCount) {
+        this.voteCount = voteCount;
+    }
+
+    public String getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
     }
 }

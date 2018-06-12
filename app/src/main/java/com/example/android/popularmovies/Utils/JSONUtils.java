@@ -29,7 +29,7 @@ public class JSONUtils {
             //Iterating through JSONArray and extracting each element
             for (int i = 0; i<resultsArray.length();i++){
                 JSONObject arrayElement = resultsArray.getJSONObject(i);
-                //Extracting data from the arrayELemt
+                //Extracting data from the arrayElement
                 String movieTitle = arrayElement.getString(MOVIE_TITLE);
                 String releaseDate = arrayElement.getString(RELEASE_DATE);
                 Integer voteCount = arrayElement.getInt(VOTE_COUNT);

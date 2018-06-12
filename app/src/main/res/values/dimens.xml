@@ -5,18 +5,16 @@
     <dimen name="dimen_margin_Top">16dp</dimen>
     <dimen name="dimen_margin_bottom">8dp</dimen>
     <dimen name="image_height">277dp</dimen>
-    <dimen name="dimen_inset_start">72dp</dimen>
-    <dimen name="dimen_title_text_margin_start">32dp</dimen>
     <dimen name="margin">8dp</dimen>
     <dimen name="backdrop_height">192dp</dimen>
     <dimen name="small_poster_width">120dp</dimen>
     <dimen name="small_poster_height">180dp</dimen>
-    <dimen name="dimen_margin_152dp">152dp</dimen>
     <dimen name="margin_top_8dp">8dp</dimen>
     <dimen name="dimen_margin_start_16dp">16dp</dimen>
     <dimen name="margin_top_image_poster">140dp</dimen>
     <dimen name="margin_start_16dp">16dp</dimen>
-    <dimen name="dimen_synopsis_margin_top">136dp</dimen>
-    <dimen name="dimen_margin_top_16dp">16dp</dimen>
     <dimen name="width_0dp">0dp</dimen>
+    <dimen name="margin_bottom_16dp">16dp</dimen>
+    <dimen name="dimen_margin_top_16dp">16dp</dimen>
+    <dimen name="dimen_drawable_padding">8dp</dimen>
 </resources>

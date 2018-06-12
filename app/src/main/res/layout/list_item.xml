@@ -1,26 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/moviePoster_iv"
         android:layout_width="match_parent"
-        android:transitionName="@string/shared_poster_image"
         android:layout_height="@dimen/image_height"
+        android:contentDescription="@string/image_placeholder_content_description"
+        android:scaleType="centerCrop"
+        android:transitionName="@string/shared_poster_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
-        android:scaleType="centerCrop"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/image_place_holder_poster"
-        android:contentDescription="@string/image_placeholder_content_description"/>
+        app:srcCompat="@drawable/image_place_holder_poster" />
 
     <TextView
-        android:visibility="gone"
         android:id="@+id/movieName_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,6 +26,7 @@
         android:layout_marginStart="@dimen/dimen_margin_start"
         android:layout_marginTop="@dimen/dimen_margin_Top"
         android:text="@string/movie_placeholder_name"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

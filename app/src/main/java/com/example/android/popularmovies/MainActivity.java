@@ -14,8 +14,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.android.popularmovies.Adapters.MovieAdapter;
 import com.example.android.popularmovies.Interfaces.JsonDataDownloadInterface;
@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity implements JsonDataDownloadI
     private String API_KEY;
     final private int CODE_POPULAR_MOVIE = 123;
     final private int CODE_NOW_PLAYING_MOVIE = 124;
-    final private String SAVED_MOVIE_LIST = "saved movie list";
     private int NUM_COLUMNS_GRID_LAYOUT = 2;
     private MovieViewModel viewModel;
     //Binding views
@@ -48,29 +47,29 @@ public class MainActivity extends AppCompatActivity implements JsonDataDownloadI
     @BindView(R.id.progressBar)
     ProgressBar mProgressBar;
     @BindView(R.id.empty_state_view)
-    LinearLayout mEmptyStateView;
+    TextView mEmptyStateView;
     @BindView(R.id.no_internet_view)
-    LinearLayout mNoInternetView;
+    TextView mNoInternetView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //TODO ADD YOUR API KEY IN String.xml FILE (GET IT FROM HERE : https://developers.themoviedb.org/3/getting-started )
         API_KEY = getResources().getString(R.string.API_KEY);
 
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+
         //Initializing view model
         viewModel = ViewModelProviders.of(this).get(MovieViewModel.class);
+
         //If View model has a movie list then it will be displayed else new data will be downloaded
         if (viewModel.getMovieList() != null) {
             populateData(viewModel.getMovieList());
         } else {
             //Initially when app is loaded it will show popular movies
             downloadAndPopulateMovieData(CODE_POPULAR_MOVIE);
-
         }
     }
 
@@ -144,20 +143,21 @@ public class MainActivity extends AppCompatActivity implements JsonDataDownloadI
 
     /**
      * Handles what happens when a recycle view's item is clicked
-     * @param key this will be used to extract the movie object in the details activity from intent extras
+     *
+     * @param key   this will be used to extract the movie object in the details activity from intent extras
      * @param movie object to be passed
      */
     @Override
-    public void onListItemClicked(String key, Movie movie,View sharedView) {
-        Intent intent = new Intent(this,DetailsActivity.class);
-        intent.putExtra(key,movie);
+    public void onListItemClicked(String key, Movie movie, View sharedView) {
+        Intent intent = new Intent(this, DetailsActivity.class);
+        intent.putExtra(key, movie);
         //Exiting main activity with a transition
         Bundle bundle = ActivityOptions
-                            .makeSceneTransitionAnimation(this
-                            ,sharedView
-                            ,sharedView.getTransitionName())
-                            .toBundle();
-        this.startActivity(intent,bundle);
+                .makeSceneTransitionAnimation(this
+                        , sharedView
+                        , sharedView.getTransitionName())
+                .toBundle();
+        this.startActivity(intent, bundle);
     }
 
     /**
@@ -196,6 +196,7 @@ public class MainActivity extends AppCompatActivity implements JsonDataDownloadI
      */
     private boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert cm != null;
         return cm.getActiveNetworkInfo() != null;
     }
 

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.android.popularmovies.DetailsActivity;
 import com.example.android.popularmovies.Interfaces.ListItemClickInterface;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.Utils.NetworkUtils;
@@ -27,7 +28,7 @@ import butterknife.ButterKnife;
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
 
     //This value will be used in intent
-    private final String MOVIE_OBJECT = "10123";
+    private final String MOVIE_OBJECT = DetailsActivity.MOVIE_OBJECT_INTENT_KEY;
 
     // View holder class for the RecyclerView row layout elements will be referenced here
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -44,7 +45,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     }
 
     private List<Movie> mMovieList;
-    private Context mContext;
+    private final Context mContext;
 
     /**
      * @param context   of the Activity
