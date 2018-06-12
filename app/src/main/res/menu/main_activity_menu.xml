@@ -8,7 +8,7 @@
         android:title="@string/popular_movies"/>
     <item
         app:showAsAction="never"
-        android:id="@+id/menu_now_playing_movies"
-        android:title="@string/now_playing_movies"/>
+        android:id="@+id/menu_top_rated_movies"
+        android:title="@string/top_rated_movies"/>
 
 </menu>

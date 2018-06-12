@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements JsonDataDownloadI
 
     private String API_KEY;
     final private int CODE_POPULAR_MOVIE = 123;
-    final private int CODE_NOW_PLAYING_MOVIE = 124;
+    final private int CODE_TOP_RATED_MOVIES = 124;
     private int NUM_COLUMNS_GRID_LAYOUT = 2;
     private MovieViewModel viewModel;
     //Binding views
@@ -88,8 +88,8 @@ public class MainActivity extends AppCompatActivity implements JsonDataDownloadI
                 case CODE_POPULAR_MOVIE:
                     NetworkUtils.getPopularMovieList(this, API_KEY);
                     break;
-                case CODE_NOW_PLAYING_MOVIE:
-                    NetworkUtils.getNowPlayingMovieList(this, API_KEY);
+                case CODE_TOP_RATED_MOVIES:
+                    NetworkUtils.getTopRatedMovieList(this, API_KEY);
                     break;
             }
         } else {
@@ -180,10 +180,10 @@ public class MainActivity extends AppCompatActivity implements JsonDataDownloadI
                 downloadAndPopulateMovieData(CODE_POPULAR_MOVIE);
                 toolbar.setTitle(R.string.popular_movies);
                 break;
-            case R.id.menu_now_playing_movies:
+            case R.id.menu_top_rated_movies:
                 //populates the recycler view with updated now playing movie list
-                downloadAndPopulateMovieData(CODE_NOW_PLAYING_MOVIE);
-                toolbar.setTitle(R.string.now_playing_movies);
+                downloadAndPopulateMovieData(CODE_TOP_RATED_MOVIES);
+                toolbar.setTitle(R.string.top_rated_movies);
                 break;
         }
         return super.onOptionsItemSelected(item);

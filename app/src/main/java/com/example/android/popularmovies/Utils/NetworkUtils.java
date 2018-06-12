@@ -15,7 +15,15 @@ import org.json.JSONObject;
  */
 public class NetworkUtils {
 
-    private static final String BASE_URL_POPULAR_MOVIES = "https://api.themoviedb.org/3/movie/popular?", BASE_URL_NOW_PLAYING_MOVIES = "https://api.themoviedb.org/3/movie/now_playing?", BASE_URL_IMAGE_POSTER = "http://image.tmdb.org/t/p/w500/", BASE_URL_IMAGE_BACKDROP = "http://image.tmdb.org/t/p/w780/", QUERY_PARAM_API_KEY = "api_key", QUERY_PARAM_LANGUAGE = "language", QUERY_PARAM_INCLUDE_ADULT = "include_adult", QUERY_PARAM_PAGE = "page", PARAM_LANGUAGE = "en-US";
+    private static final String BASE_URL_POPULAR_MOVIES = "https://api.themoviedb.org/3/movie/popular?"
+            , BASE_URL_TOP_RATED_MOVIES = "https://api.themoviedb.org/3/movie/top_rated?"
+            , BASE_URL_IMAGE_POSTER = "http://image.tmdb.org/t/p/w500/"
+            , BASE_URL_IMAGE_BACKDROP = "http://image.tmdb.org/t/p/w780/"
+            , QUERY_PARAM_API_KEY = "api_key"
+            , QUERY_PARAM_LANGUAGE = "language"
+            , QUERY_PARAM_INCLUDE_ADULT = "include_adult"
+            , QUERY_PARAM_PAGE = "page"
+            , PARAM_LANGUAGE = "en-US";
 
     /**
      * @param imagePath Takes the path of the image in the database
@@ -47,8 +55,8 @@ public class NetworkUtils {
      *
      * @param API_KEY The api key to access the online database
      */
-    public static void getNowPlayingMovieList(Context context, String API_KEY) {
-        requestDataFromInternet(context, BASE_URL_NOW_PLAYING_MOVIES, API_KEY);
+    public static void getTopRatedMovieList(Context context, String API_KEY) {
+        requestDataFromInternet(context, BASE_URL_TOP_RATED_MOVIES, API_KEY);
     }
 
     /**
