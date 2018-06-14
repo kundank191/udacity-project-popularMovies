@@ -63,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements JsonDataDownloadI
 
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        //Set num of columns according to screen orientation
+        NUM_COLUMNS_GRID_LAYOUT = getResources().getInteger(R.integer.num_colums_grid_view);
 
         //Initializing view model Factory
         mFactory = new MovieViewModelFactory();
