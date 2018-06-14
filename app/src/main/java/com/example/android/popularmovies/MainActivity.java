@@ -22,6 +22,8 @@ import com.example.android.popularmovies.Interfaces.JsonDataDownloadInterface;
 import com.example.android.popularmovies.Interfaces.ListItemClickInterface;
 import com.example.android.popularmovies.Utils.JSONUtils;
 import com.example.android.popularmovies.Utils.NetworkUtils;
+import com.example.android.popularmovies.ViewModel.MovieViewModel;
+import com.example.android.popularmovies.ViewModel.MovieViewModelFactory;
 import com.example.android.popularmovies.models.Movie;
 
 import org.json.JSONObject;
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements JsonDataDownloadI
     TextView mEmptyStateView;
     @BindView(R.id.no_internet_view)
     TextView mNoInternetView;
+    private MovieViewModelFactory mFactory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +64,9 @@ public class MainActivity extends AppCompatActivity implements JsonDataDownloadI
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
-        //Initializing view model
-        viewModel = ViewModelProviders.of(this).get(MovieViewModel.class);
+        //Initializing view model Factory
+        mFactory = new MovieViewModelFactory();
+        viewModel = ViewModelProviders.of(this,mFactory).get(MovieViewModel.class);
 
         //If View model has a movie list then it will be displayed else new data will be downloaded
         if (viewModel.getMovieList() != null) {
