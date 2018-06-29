@@ -1,4 +1,4 @@
-package com.example.android.popularmovies.Adapters;
+package com.example.android.popularmovies.ui.list;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -9,11 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.android.popularmovies.DetailsActivity;
-import com.example.android.popularmovies.Interfaces.ListItemClickInterface;
+import com.example.android.popularmovies.data.network.MovieResponse;
+import com.example.android.popularmovies.ui.detail.DetailsActivity;
+import com.example.android.popularmovies.ui.Interfaces.ListItemClickInterface;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.Utils.NetworkUtils;
-import com.example.android.popularmovies.models.Movie;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -44,16 +44,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         }
     }
 
-    private List<Movie> mMovieList;
+    private List<MovieResponse> mMovieResponseList;
     private final Context mContext;
 
     /**
      * @param context   of the Activity
-     * @param movieList The list of movie to be displayed
+     * @param movieResponseList The list of movie to be displayed
      */
-    public MovieAdapter(Context context, List<Movie> movieList) {
+    public MovieAdapter(Context context, List<MovieResponse> movieResponseList) {
         mContext = context;
-        mMovieList = movieList;
+        mMovieResponseList = movieResponseList;
     }
 
     //Returns a ViewHolder
@@ -69,15 +69,15 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     //Binds the data to the views
     @Override
     public void onBindViewHolder(@NonNull final MovieAdapter.ViewHolder holder, int position) {
-        //Getting a Movie object with respect to position
-        final Movie movie = mMovieList.get(position);
+        //Getting a MovieResponse object with respect to position
+        final MovieResponse movieResponse = mMovieResponseList.get(position);
 
         //Populating views
-        holder.movieNameTV.setText(movie.getMovieTitle());
-        //The content description of the imageView will be the title of the movie
-        holder.moviePosterIV.setContentDescription(movie.getMovieTitle());
+        holder.movieNameTV.setText(movieResponse.getMovieTitle());
+        //The content description of the imageView will be the title of the movieResponse
+        holder.moviePosterIV.setContentDescription(movieResponse.getMovieTitle());
         Picasso.with(mContext)
-                .load(NetworkUtils.getPosterImageURL(movie.getPosterPath()))
+                .load(NetworkUtils.getPosterImageURL(movieResponse.getPosterPath()))
                 .placeholder(R.drawable.image_place_holder_poster)
                 .error(R.drawable.broken_image_poster)
                 .into(holder.moviePosterIV);
@@ -87,18 +87,18 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             @Override
             public void onClick(View view) {
                 ListItemClickInterface onClickInterface = (ListItemClickInterface) mContext;
-                onClickInterface.onListItemClicked(MOVIE_OBJECT,movie,holder.moviePosterIV);
+                onClickInterface.onListItemClicked(MOVIE_OBJECT, movieResponse,holder.moviePosterIV);
             }
         });
     }
 
-    public void setMovieList(List<Movie> mMovieList) {
-        this.mMovieList = mMovieList;
+    public void setMovieList(List<MovieResponse> mMovieResponseList) {
+        this.mMovieResponseList = mMovieResponseList;
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return mMovieList.size();
+        return mMovieResponseList.size();
     }
 }

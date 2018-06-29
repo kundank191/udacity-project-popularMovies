@@ -1,4 +1,4 @@
-package com.example.android.popularmovies;
+package com.example.android.popularmovies.ui.detail;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,8 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.Utils.NetworkUtils;
-import com.example.android.popularmovies.models.Movie;
+import com.example.android.popularmovies.data.network.MovieResponse;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -51,9 +52,9 @@ public class DetailsActivity extends AppCompatActivity {
         //Get the intent and then retrieve the movie object from it
         Intent intent = getIntent();
         if (intent != null) {
-            Movie movie = (Movie) intent.getSerializableExtra(MOVIE_OBJECT_INTENT_KEY);
-            if (movie != null) {
-                populateUI(movie);
+            MovieResponse movieResponse = (MovieResponse) intent.getSerializableExtra(MOVIE_OBJECT_INTENT_KEY);
+            if (movieResponse != null) {
+                populateUI(movieResponse);
             } else {
                 closeOnError();
             }
@@ -65,12 +66,12 @@ public class DetailsActivity extends AppCompatActivity {
     /**
      * This function populates the UI with data
      *
-     * @param movie from this object all the data will be taken out to populate views
+     * @param movieResponse from this object all the data will be taken out to populate views
      */
-    private void populateUI(Movie movie) {
+    private void populateUI(MovieResponse movieResponse) {
         //Setting the backdrop image to be the background of the toolbar
         Picasso.with(this)
-                .load(NetworkUtils.getBackdropImageURL(movie.getBackdropPath()))
+                .load(NetworkUtils.getBackdropImageURL(movieResponse.getBackdropPath()))
                 .placeholder(R.drawable.image_place_holder_back_drop)
                 .error(R.drawable.broken_image_back_drop)
                 .into(new Target() {
@@ -92,17 +93,17 @@ public class DetailsActivity extends AppCompatActivity {
                     }
                 });
         Picasso.with(this)
-                .load(NetworkUtils.getPosterImageURL(movie.getPosterPath()))
+                .load(NetworkUtils.getPosterImageURL(movieResponse.getPosterPath()))
                 .placeholder(R.drawable.image_place_holder_poster)
                 .error(R.drawable.broken_image_poster)
                 .into(moviePoster_iv);
 
         //This will populate the ratings text view \u2b50 is a code for a star
-        String ratingText = (movie.getVoteAverage() / 2) + " \u2b50 " + movie.getVoteCount() + "  " + getResources().getString(R.string.ratings);
+        String ratingText = (movieResponse.getVoteAverage() / 2) + " \u2b50 " + movieResponse.getVoteCount() + "  " + getResources().getString(R.string.ratings);
         ratingTV.setText(ratingText);
-        movieNameTV.setText(movie.getMovieTitle());
-        movieReleaseDateTV.setText(movie.getReleaseDate());
-        movieSynopsisTV.setText(movie.getMovieSynopsis());
+        movieNameTV.setText(movieResponse.getMovieTitle());
+        movieReleaseDateTV.setText(movieResponse.getReleaseDate());
+        movieSynopsisTV.setText(movieResponse.getMovieSynopsis());
 
     }
 

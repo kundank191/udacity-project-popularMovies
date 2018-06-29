@@ -1,6 +1,6 @@
 package com.example.android.popularmovies.Utils;
 
-import com.example.android.popularmovies.models.Movie;
+import com.example.android.popularmovies.data.network.MovieResponse;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,8 +22,8 @@ public class JSONUtils {
                                 ,BACKDROP_PATH = "backdrop_path"
                                 ,SYNOPSIS = "overview";
 
-    public static List<Movie> getMovieList(JSONObject root){
-        List<Movie> movieList = new LinkedList<>();
+    public static List<MovieResponse> getMovieList(JSONObject root){
+        List<MovieResponse> movieResponseList = new LinkedList<>();
         try {
             JSONArray resultsArray = root.getJSONArray(RESULT_JSON_ARRAY);
             //Iterating through JSONArray and extracting each element
@@ -38,12 +38,12 @@ public class JSONUtils {
                 String backdropPath = arrayElement.getString(BACKDROP_PATH);
                 String synopsis = arrayElement.getString(SYNOPSIS);
                 //Storing all this data in a list of Movies
-                movieList.add(new Movie(movieTitle,synopsis,backdropPath,posterPath,voteAverage,voteCount,releaseDate));
+                movieResponseList.add(new MovieResponse(movieTitle,synopsis,backdropPath,posterPath,voteAverage,voteCount,releaseDate));
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            movieList = null;
+            movieResponseList = null;
         }
-        return movieList;
+        return movieResponseList;
     }
 }

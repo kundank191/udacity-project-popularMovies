@@ -1,8 +1,8 @@
 # udacity-project-popularMovies
 My submission for Udacity Movie App project for Android Developer Nanodegree
 ## Movie App
-This app uses moviedb API : https://developers.themoviedb.org/3 to get movie data.
-It displays a movie list in main activity, two types of list of popular and top rated movies can be displayed, when a list item is clicked it opens detail activity
+This app uses moviedb API : https://developers.themoviedb.org/3 to get movieResponse data.
+It displays a movieResponse list in main activity, two types of list of popular and top rated movies can be displayed, when a list item is clicked it opens detail activity
 
 ## Main Activity
 

@@ -2,11 +2,11 @@
     <string name="app_name">Popular Movies</string>
 
     <!-- TODO PASTE YOUR API KEY HERE (GET IT FROM HERE : https://developers.themoviedb.org/3/getting-started)-->
-    <string name="API_KEY">PASTE-YOUR-API-KEY-HERE</string>
+    <string name="API_KEY">4f5b4f60ccf4f4142ccb1833ae13c850</string>
     <!-- Name of the shared view for transition -->
     <string name="shared_poster_image">Shared poster image</string>
 
-    <string name="movie_placeholder_name">A movie</string>
+    <string name="movie_placeholder_name">A movieResponse</string>
     <string name="image_placeholder_content_description">Movie Image</string>
     <!-- Main activity Strings -->
     <string name="no_internet_connection">No Internet Connection</string>
@@ -14,8 +14,8 @@
     <string name="popular_movies">Popular movies</string>
     <string name="top_rated_movies">Top Rated Movies</string>
     <!-- Details activity Strings -->
-    <string name="detail_activity_error_message">Error getting movie data</string>
-    <!-- Movie object attributes -->
+    <string name="detail_activity_error_message">Error getting movieResponse data</string>
+    <!-- MovieResponse object attributes -->
     <string name="release_date">Release date</string>
     <string name="synopsis">Synopsis</string>
     <string name="ratings">Ratings</string>

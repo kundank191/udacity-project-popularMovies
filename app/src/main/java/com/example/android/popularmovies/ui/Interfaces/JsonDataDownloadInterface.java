@@ -1,4 +1,4 @@
-package com.example.android.popularmovies.Interfaces;
+package com.example.android.popularmovies.ui.Interfaces;
 
 import org.json.JSONObject;
 

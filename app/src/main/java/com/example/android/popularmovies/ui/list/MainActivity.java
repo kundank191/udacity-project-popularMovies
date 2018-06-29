@@ -1,4 +1,4 @@
-package com.example.android.popularmovies;
+package com.example.android.popularmovies.ui.list;
 
 import android.app.ActivityOptions;
 import android.arch.lifecycle.ViewModelProviders;
@@ -17,14 +17,15 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.android.popularmovies.Adapters.MovieAdapter;
-import com.example.android.popularmovies.Interfaces.JsonDataDownloadInterface;
-import com.example.android.popularmovies.Interfaces.ListItemClickInterface;
+import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.Utils.JSONUtils;
 import com.example.android.popularmovies.Utils.NetworkUtils;
-import com.example.android.popularmovies.ViewModel.MovieViewModel;
-import com.example.android.popularmovies.ViewModel.MovieViewModelFactory;
-import com.example.android.popularmovies.models.Movie;
+import com.example.android.popularmovies.data.network.MovieResponse;
+import com.example.android.popularmovies.ui.detail.MovieViewModel;
+import com.example.android.popularmovies.ui.detail.MovieViewModelFactory;
+import com.example.android.popularmovies.ui.Interfaces.JsonDataDownloadInterface;
+import com.example.android.popularmovies.ui.Interfaces.ListItemClickInterface;
+import com.example.android.popularmovies.ui.detail.DetailsActivity;
 
 import org.json.JSONObject;
 
@@ -130,13 +131,13 @@ public class MainActivity extends AppCompatActivity implements JsonDataDownloadI
      * Populates the recycler view with movie list
      * if movie list is null it will show an error screen
      *
-     * @param movieList a list of movie objects
+     * @param movieResponseList a list of movie objects
      */
-    private void populateData(List<Movie> movieList) {
-        if (movieList == null) {
+    private void populateData(List<MovieResponse> movieResponseList) {
+        if (movieResponseList == null) {
             showErrorUI();
         } else {
-            mAdapter = new MovieAdapter(this, movieList);
+            mAdapter = new MovieAdapter(this, movieResponseList);
             mRecyclerView.setAdapter(mAdapter);
             mRecyclerView.setLayoutManager(new GridLayoutManager(this, NUM_COLUMNS_GRID_LAYOUT));
             //Show and hide relevant views
@@ -150,13 +151,13 @@ public class MainActivity extends AppCompatActivity implements JsonDataDownloadI
     /**
      * Handles what happens when a recycle view's item is clicked
      *
-     * @param key   this will be used to extract the movie object in the details activity from intent extras
-     * @param movie object to be passed
+     * @param key   this will be used to extract the movieResponse object in the details activity from intent extras
+     * @param movieResponse object to be passed
      */
     @Override
-    public void onListItemClicked(String key, Movie movie, View sharedView) {
+    public void onListItemClicked(String key, MovieResponse movieResponse, View sharedView) {
         Intent intent = new Intent(this, DetailsActivity.class);
-        intent.putExtra(key, movie);
+        intent.putExtra(key, movieResponse);
         //Exiting main activity with a transition
         Bundle bundle = ActivityOptions
                 .makeSceneTransitionAnimation(this

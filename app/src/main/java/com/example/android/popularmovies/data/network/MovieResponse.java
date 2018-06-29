@@ -1,4 +1,4 @@
-package com.example.android.popularmovies.models;
+package com.example.android.popularmovies.data.network;
 
 import java.io.Serializable;
 
@@ -8,7 +8,7 @@ import java.io.Serializable;
  * It also has all the getter and setter methods for all the parameters
  * It implements Serializable so that it can be passed with intents
  */
-public class Movie implements Serializable {
+public class MovieResponse implements Serializable {
 
     private String movieTitle;
     private String movieSynopsis;
@@ -18,7 +18,7 @@ public class Movie implements Serializable {
     private Integer voteCount;
     private String releaseDate;
 
-    public Movie(String movieName, String movieSynopsis, String backdropPath, String posterPath, Double movieRatings, Integer ratingsCount, String releaseDate) {
+    public MovieResponse(String movieName, String movieSynopsis, String backdropPath, String posterPath, Double movieRatings, Integer ratingsCount, String releaseDate) {
         this.movieTitle = movieName;
         this.movieSynopsis = movieSynopsis;
         this.backdropPath = backdropPath;

@@ -1,4 +1,4 @@
-package com.example.android.popularmovies.ViewModel;
+package com.example.android.popularmovies.ui.detail;
 
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
