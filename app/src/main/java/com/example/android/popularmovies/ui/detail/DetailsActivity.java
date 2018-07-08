@@ -6,6 +6,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,17 +15,21 @@ import android.widget.Toast;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.Utils.NetworkUtils;
 import com.example.android.popularmovies.data.network.MovieResponse;
+import com.example.android.popularmovies.ui.Interfaces.JsonDataDownloadInterface;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
+
+import org.json.JSONObject;
 
 import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DetailsActivity extends AppCompatActivity {
+public class DetailsActivity extends AppCompatActivity implements JsonDataDownloadInterface{
 
     public static final String MOVIE_OBJECT_INTENT_KEY = "10123";
+    private String API_KEY;
     @BindView(R.id.app_bar_detail_activity)
     android.support.v7.widget.Toolbar mToolbar;
     @BindView(R.id.moviePoster_iv)
@@ -43,6 +48,8 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
+        //Getting the API KEY
+        API_KEY = getResources().getString(R.string.API_KEY);
         //Binding views
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
@@ -55,6 +62,8 @@ public class DetailsActivity extends AppCompatActivity {
             MovieResponse movieResponse = (MovieResponse) intent.getSerializableExtra(MOVIE_OBJECT_INTENT_KEY);
             if (movieResponse != null) {
                 populateUI(movieResponse);
+                //Manipulate here after getting movie data
+                NetworkUtils.getMovieDetails(this,movieResponse.getMovieID(),API_KEY);
             } else {
                 closeOnError();
             }
@@ -129,5 +138,15 @@ public class DetailsActivity extends AppCompatActivity {
     private void closeOnError() {
         Toast.makeText(this, R.string.detail_activity_error_message, Toast.LENGTH_SHORT).show();
         finish();
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+        Log.i("Got it",response.toString());
+    }
+
+    @Override
+    public void onError(String error) {
+
     }
 }

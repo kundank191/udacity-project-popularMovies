@@ -16,6 +16,7 @@ public class JSONUtils {
     private static final String RESULT_JSON_ARRAY = "results"
                                 ,VOTE_COUNT = "vote_count"
                                 ,VOTE_AVERAGE = "vote_average"
+                                ,MOVIE_ID = "id"
                                 ,MOVIE_TITLE = "title"
                                 ,RELEASE_DATE = "release_date"
                                 ,POSTER_PATH = "poster_path"
@@ -30,6 +31,7 @@ public class JSONUtils {
             for (int i = 0; i<resultsArray.length();i++){
                 JSONObject arrayElement = resultsArray.getJSONObject(i);
                 //Extracting data from the arrayElement
+                String movieID = arrayElement.getString(MOVIE_ID);
                 String movieTitle = arrayElement.getString(MOVIE_TITLE);
                 String releaseDate = arrayElement.getString(RELEASE_DATE);
                 Integer voteCount = arrayElement.getInt(VOTE_COUNT);
@@ -38,7 +40,7 @@ public class JSONUtils {
                 String backdropPath = arrayElement.getString(BACKDROP_PATH);
                 String synopsis = arrayElement.getString(SYNOPSIS);
                 //Storing all this data in a list of Movies
-                movieResponseList.add(new MovieResponse(movieTitle,synopsis,backdropPath,posterPath,voteAverage,voteCount,releaseDate));
+                movieResponseList.add(new MovieResponse(movieID,movieTitle,synopsis,backdropPath,posterPath,voteAverage,voteCount,releaseDate));
             }
         } catch (JSONException e) {
             e.printStackTrace();

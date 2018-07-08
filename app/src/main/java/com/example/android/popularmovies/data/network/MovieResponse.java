@@ -17,8 +17,10 @@ public class MovieResponse implements Serializable {
     private Double voteAverage;
     private Integer voteCount;
     private String releaseDate;
+    private String movieID;
 
-    public MovieResponse(String movieName, String movieSynopsis, String backdropPath, String posterPath, Double movieRatings, Integer ratingsCount, String releaseDate) {
+    public MovieResponse(String movieID,String movieName, String movieSynopsis, String backdropPath, String posterPath, Double movieRatings, Integer ratingsCount, String releaseDate) {
+        this.movieID = movieID;
         this.movieTitle = movieName;
         this.movieSynopsis = movieSynopsis;
         this.backdropPath = backdropPath;
@@ -26,6 +28,14 @@ public class MovieResponse implements Serializable {
         this.voteAverage = movieRatings;
         this.voteCount = ratingsCount;
         this.releaseDate = releaseDate;
+    }
+
+    public String getMovieID() {
+        return movieID;
+    }
+
+    public void setMovieID(String movieID) {
+        this.movieID = movieID;
     }
 
     public String getMovieTitle() {
