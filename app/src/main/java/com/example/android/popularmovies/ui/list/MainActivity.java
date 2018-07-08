@@ -127,6 +127,11 @@ public class MainActivity extends AppCompatActivity implements JsonDataDownloadI
         showErrorUI();
     }
 
+    @Override
+    public void onResponse(JSONObject response, String param) {
+
+    }
+
     /**
      * Populates the recycler view with movie list
      * if movie list is null it will show an error screen

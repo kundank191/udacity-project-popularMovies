@@ -10,4 +10,7 @@ public interface JsonDataDownloadInterface {
     void onResponse(JSONObject response);
 
     void onError(String error);
+
+    void onResponse(JSONObject response, String param);
 }
+

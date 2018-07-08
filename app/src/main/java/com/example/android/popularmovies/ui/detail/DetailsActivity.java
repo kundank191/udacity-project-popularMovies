@@ -67,6 +67,10 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
                 populateUI(movieResponse);
                 //Manipulate here after getting movie data
                 NetworkUtils.getMovieDetails(this, movieResponse.getMovieID(), API_KEY);
+                NetworkUtils.getMovieReviews(this,movieResponse.getMovieID(),API_KEY);
+                NetworkUtils.getMovieCredits(this,movieResponse.getMovieID(),API_KEY);
+                NetworkUtils.getMovieVideos(this,movieResponse.getMovieID(),API_KEY);
+                NetworkUtils.getSimilarMovies(this,movieResponse.getMovieID(),API_KEY);
             } else {
                 closeOnError();
             }
@@ -216,5 +220,20 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
     @Override
     public void onError(String error) {
 
+    }
+
+    @Override
+    public void onResponse(JSONObject response, String param) {
+        Log.i(param,response.toString());
+        switch (param){
+            case NetworkUtils.PATH_PARAM_CREDITS:
+                break;
+            case NetworkUtils.PATH_PARAM_REVIEWS:
+                break;
+            case NetworkUtils.PATH_PARAM_SIMILAR:
+                break;
+            case NetworkUtils.PATH_PARAM_VIDEOS:
+                break;
+        }
     }
 }

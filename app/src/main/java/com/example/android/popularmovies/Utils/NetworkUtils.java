@@ -15,7 +15,7 @@ import org.json.JSONObject;
  */
 public class NetworkUtils {
 
-    private static final String BASE_URL_MOVIES = "https://api.themoviedb.org/3/movie/"
+    public static final String BASE_URL_MOVIES = "https://api.themoviedb.org/3/movie/"
             , BASE_URL_POPULAR_MOVIES = "https://api.themoviedb.org/3/movie/popular?"
             , BASE_URL_TOP_RATED_MOVIES = "https://api.themoviedb.org/3/movie/top_rated?"
             , BASE_URL_IMAGE_POSTER = "http://image.tmdb.org/t/p/w500/"
@@ -47,12 +47,22 @@ public class NetworkUtils {
     }
 
     /**
+     *
+     * @param movieID Id of the movie
+     * @param pathParam the details path
+     * @return the URL for the specific details
+     */
+    private static String getMovieDetailsURL(String movieID, String pathParam){
+        return BASE_URL_MOVIES + movieID + "/" + pathParam;
+    }
+
+    /**
      * Downloads Popular movies list
      *
      * @param API_KEY The api key to access the online database
      */
     public static void getPopularMovieList(Context context, String API_KEY) {
-        requestDataFromInternet(context, BASE_URL_POPULAR_MOVIES, API_KEY);
+        requestDataFromInternet(context, BASE_URL_POPULAR_MOVIES, API_KEY,null);
     }
 
     /**
@@ -61,26 +71,61 @@ public class NetworkUtils {
      * @param API_KEY The api key to access the online database
      */
     public static void getTopRatedMovieList(Context context, String API_KEY) {
-        requestDataFromInternet(context, BASE_URL_TOP_RATED_MOVIES, API_KEY);
+        requestDataFromInternet(context, BASE_URL_TOP_RATED_MOVIES, API_KEY,null);
     }
 
     /**
-     * Get the movie reviews
+     * Get the movie Details
      *
      * @param API_KEY The api key to access the online database
      */
     public static void getMovieDetails(Context context, String movieID, String API_KEY) {
-        String baseURL = BASE_URL_MOVIES + movieID;
-        requestDataFromInternet(context, baseURL, API_KEY);
+        String baseURL = getMovieDetailsURL(movieID,null);
+        requestDataFromInternet(context, baseURL, API_KEY,null);
     }
 
     /**
      * Get the movie reviews
      *
+     * @param movieID ID of the movie
      * @param API_KEY The api key to access the online database
      */
     public static void getMovieReviews(Context context, String movieID, String API_KEY) {
-        requestDataFromInternet(context, BASE_URL_TOP_RATED_MOVIES, API_KEY);
+        String baseUrl = getMovieDetailsURL(movieID,PATH_PARAM_REVIEWS);
+        requestDataFromInternet(context,baseUrl,API_KEY,PATH_PARAM_REVIEWS);
+    }
+
+    /**
+     * Get the movie credits
+     *
+     * @param movieID ID of the movie
+     * @param API_KEY The api key to access the online database
+     */
+    public static void getMovieCredits(Context context, String movieID, String API_KEY) {
+        String baseUrl = getMovieDetailsURL(movieID,PATH_PARAM_CREDITS);
+        requestDataFromInternet(context,baseUrl,API_KEY,PATH_PARAM_CREDITS);
+    }
+
+    /**
+     * Get the movie trailer videos
+     *
+     * @param movieID ID of the movie
+     * @param API_KEY The api key to access the online database
+     */
+    public static void getMovieVideos(Context context, String movieID, String API_KEY) {
+        String baseUrl = getMovieDetailsURL(movieID,PATH_PARAM_VIDEOS);
+        requestDataFromInternet(context,baseUrl,API_KEY,PATH_PARAM_VIDEOS);
+    }
+
+    /**
+     * Get the Similar movie list
+     *
+     * @param movieID ID of the movie
+     * @param API_KEY The api key to access the online database
+     */
+    public static void getSimilarMovies(Context context, String movieID, String API_KEY) {
+        String baseUrl = getMovieDetailsURL(movieID,PATH_PARAM_SIMILAR);
+        requestDataFromInternet(context,baseUrl,API_KEY,PATH_PARAM_SIMILAR);
     }
 
     /**
@@ -88,8 +133,9 @@ public class NetworkUtils {
      *
      * @param baseURL from where data is to be downloaded
      * @param API_KEY to access the database
+     * @param param it will be used to check if a detail is being requested or movie list and interface function will be called respectively
      */
-    private static void requestDataFromInternet(final Context context, String baseURL, String API_KEY) {
+    private static void requestDataFromInternet(final Context context, String baseURL, String API_KEY, final String param) {
         //To transfer data back to the context activity
         final JsonDataDownloadInterface requestListener = (JsonDataDownloadInterface) context;
         AndroidNetworking.get(baseURL)
@@ -103,42 +149,11 @@ public class NetworkUtils {
                     @Override
                     public void onResponse(JSONObject response) {
                         //If data is downloaded successfully onResponse is called in the context activity
-                        requestListener.onResponse(response);
-                    }
-
-                    @Override
-                    public void onError(ANError anError) {
-                        //If there is some error onError is called in the context activity
-                        requestListener.onError(anError.toString());
-                    }
-                });
-    }
-
-    /**
-     * Using Fast Android Networking library to fetch data from internet , data is transferred to activity using an interface
-     *
-     * @param baseURL from where data is to be downloaded
-     * @param API_KEY to access the database
-     * @param movieID the Movie ID whose details has to be requested
-     * @param path    the path whose details has to be requested
-     */
-    private static void requestDataFromInternet(final Context context, String movieID, String baseURL, String path, String API_KEY) {
-        //To transfer data back to the context activity
-        final JsonDataDownloadInterface requestListener = (JsonDataDownloadInterface) context;
-        AndroidNetworking.get(baseURL)
-                .addPathParameter(movieID)
-                .addPathParameter(path)
-                .addQueryParameter(QUERY_PARAM_API_KEY, API_KEY)
-                .addQueryParameter(QUERY_PARAM_LANGUAGE, PARAM_LANGUAGE)
-                .addQueryParameter(QUERY_PARAM_INCLUDE_ADULT, "false")
-                .addQueryParameter(QUERY_PARAM_PAGE, "1")
-                .setPriority(Priority.LOW)
-                .build()
-                .getAsJSONObject(new JSONObjectRequestListener() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        //If data is downloaded successfully onResponse is called in the context activity
-                        requestListener.onResponse(response);
+                        if(param == null) {
+                            requestListener.onResponse(response);
+                        } else {
+                            requestListener.onResponse(response,param);
+                        }
                     }
 
                     @Override
