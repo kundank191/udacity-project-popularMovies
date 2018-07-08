@@ -9,12 +9,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.android.popularmovies.data.network.MovieResponse;
-import com.example.android.popularmovies.ui.detail.DetailsActivity;
-import com.example.android.popularmovies.ui.Interfaces.ListItemClickInterface;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.example.android.popularmovies.R;
+import com.example.android.popularmovies.Utils.GlideApp;
 import com.example.android.popularmovies.Utils.NetworkUtils;
-import com.squareup.picasso.Picasso;
+import com.example.android.popularmovies.data.network.MovieResponse;
+import com.example.android.popularmovies.ui.Interfaces.ListItemClickInterface;
+import com.example.android.popularmovies.ui.detail.DetailsActivity;
 
 import java.util.List;
 
@@ -76,10 +77,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         holder.movieNameTV.setText(movieResponse.getMovieTitle());
         //The content description of the imageView will be the title of the movieResponse
         holder.moviePosterIV.setContentDescription(movieResponse.getMovieTitle());
-        Picasso.with(mContext)
+
+        GlideApp.with(mContext)
                 .load(NetworkUtils.getPosterImageURL(movieResponse.getPosterPath()))
                 .placeholder(R.drawable.image_place_holder_poster)
                 .error(R.drawable.broken_image_poster)
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .into(holder.moviePosterIV);
 
         //When an Item is clicked then it will open detail activity with passed data

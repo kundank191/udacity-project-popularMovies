@@ -1,10 +1,10 @@
 package com.example.android.popularmovies.ui.detail;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -12,12 +12,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.Request;
+import com.bumptech.glide.request.target.SizeReadyCallback;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.android.popularmovies.R;
+import com.example.android.popularmovies.Utils.GlideApp;
 import com.example.android.popularmovies.Utils.NetworkUtils;
 import com.example.android.popularmovies.data.network.MovieResponse;
 import com.example.android.popularmovies.ui.Interfaces.JsonDataDownloadInterface;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import org.json.JSONObject;
 
@@ -26,7 +29,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DetailsActivity extends AppCompatActivity implements JsonDataDownloadInterface{
+public class DetailsActivity extends AppCompatActivity implements JsonDataDownloadInterface {
 
     public static final String MOVIE_OBJECT_INTENT_KEY = "10123";
     private String API_KEY;
@@ -63,7 +66,7 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
             if (movieResponse != null) {
                 populateUI(movieResponse);
                 //Manipulate here after getting movie data
-                NetworkUtils.getMovieDetails(this,movieResponse.getMovieID(),API_KEY);
+                NetworkUtils.getMovieDetails(this, movieResponse.getMovieID(), API_KEY);
             } else {
                 closeOnError();
             }
@@ -78,33 +81,98 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
      * @param movieResponse from this object all the data will be taken out to populate views
      */
     private void populateUI(MovieResponse movieResponse) {
-        //Setting the backdrop image to be the background of the toolbar
-        Picasso.with(this)
+        //Setting Image backdrop on toolbar
+        //Picasso
+//        Picasso.with(this)
+//                .load(NetworkUtils.getBackdropImageURL(movieResponse.getBackdropPath()))
+//                .placeholder(R.drawable.image_place_holder_back_drop)
+//                .error(R.drawable.broken_image_back_drop)
+//                .into(new Target() {
+//                    @Override
+//                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+//                        mToolbar.setBackground(new BitmapDrawable(getBaseContext().getResources(), bitmap));
+//                    }
+//
+//                    @Override
+//                    public void onBitmapFailed(Drawable errorDrawable) {
+//                        mToolbar.setBackground(errorDrawable);
+//
+//                    }
+//
+//                    @Override
+//                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+//                        mToolbar.setBackground(placeHolderDrawable);
+//
+//                    }
+//                });
+        GlideApp.with(this)
                 .load(NetworkUtils.getBackdropImageURL(movieResponse.getBackdropPath()))
                 .placeholder(R.drawable.image_place_holder_back_drop)
                 .error(R.drawable.broken_image_back_drop)
-                .into(new Target() {
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(new com.bumptech.glide.request.target.Target<Drawable>() {
                     @Override
-                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        mToolbar.setBackground(new BitmapDrawable(getBaseContext().getResources(), bitmap));
+                    public void onLoadStarted(@Nullable Drawable placeholder) {
+                        mToolbar.setBackground(placeholder);
                     }
 
                     @Override
-                    public void onBitmapFailed(Drawable errorDrawable) {
+                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
                         mToolbar.setBackground(errorDrawable);
+                    }
+
+                    @Override
+                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                        mToolbar.setBackground(resource);
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
 
                     }
 
                     @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-                        mToolbar.setBackground(placeHolderDrawable);
+                    public void getSize(@NonNull SizeReadyCallback cb) {
+
+                    }
+
+                    @Override
+                    public void removeCallback(@NonNull SizeReadyCallback cb) {
+
+                    }
+
+                    @Override
+                    public void setRequest(@Nullable Request request) {
+
+                    }
+
+                    @Nullable
+                    @Override
+                    public Request getRequest() {
+                        return null;
+                    }
+
+                    @Override
+                    public void onStart() {
+
+                    }
+
+                    @Override
+                    public void onStop() {
+
+                    }
+
+                    @Override
+                    public void onDestroy() {
 
                     }
                 });
-        Picasso.with(this)
+        //Setting the poster image
+        GlideApp.with(this)
                 .load(NetworkUtils.getPosterImageURL(movieResponse.getPosterPath()))
                 .placeholder(R.drawable.image_place_holder_poster)
                 .error(R.drawable.broken_image_poster)
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .into(moviePoster_iv);
 
         //This will populate the ratings text view \u2b50 is a code for a star
@@ -142,7 +210,7 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
 
     @Override
     public void onResponse(JSONObject response) {
-        Log.i("Got it",response.toString());
+        Log.i("Got it", response.toString());
     }
 
     @Override
