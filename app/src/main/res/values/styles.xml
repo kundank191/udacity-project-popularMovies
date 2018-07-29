@@ -9,4 +9,12 @@
         <item name="android:textColorSecondary">@android:color/white</item>
     </style>
 
+    <style name="TitleTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/dimen_margin_start_16dp</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
+        <item name="android:textColor">@color/textColorPrimaryLight</item>
+    </style>
+
 </resources>
