@@ -1,11 +1,14 @@
 package com.example.android.popularmovies.Utils;
 
+import com.example.android.popularmovies.data.network.MovieCreditsResponse;
 import com.example.android.popularmovies.data.network.MovieResponse;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,6 +19,7 @@ public class JSONUtils {
     private static final String RESULT_JSON_ARRAY = "results"
                                 ,VOTE_COUNT = "vote_count"
                                 ,VOTE_AVERAGE = "vote_average"
+                                ,MOVIE_CAST = "cast"
                                 ,MOVIE_ID = "id"
                                 ,MOVIE_TITLE = "title"
                                 ,RELEASE_DATE = "release_date"
@@ -47,5 +51,17 @@ public class JSONUtils {
             movieResponseList = null;
         }
         return movieResponseList;
+    }
+
+    public static List<MovieCreditsResponse> getMovieCast(JSONObject jsonResponse){
+        Gson gson = new Gson();
+        MovieCreditsResponse[] listCast = null;
+        try {
+            JSONArray castList = jsonResponse.getJSONArray(MOVIE_CAST);
+            listCast = gson.fromJson(castList.toString(),MovieCreditsResponse[].class);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return Arrays.asList(listCast);
     }
 }

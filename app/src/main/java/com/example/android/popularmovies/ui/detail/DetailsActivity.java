@@ -1,10 +1,10 @@
 package com.example.android.popularmovies.ui.detail;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -13,14 +13,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
-import com.bumptech.glide.request.Request;
-import com.bumptech.glide.request.target.SizeReadyCallback;
-import com.bumptech.glide.request.transition.Transition;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.Utils.GlideApp;
+import com.example.android.popularmovies.Utils.JSONUtils;
 import com.example.android.popularmovies.Utils.NetworkUtils;
 import com.example.android.popularmovies.data.network.MovieResponse;
 import com.example.android.popularmovies.ui.Interfaces.JsonDataDownloadInterface;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import org.json.JSONObject;
 
@@ -87,87 +87,25 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
     private void populateUI(MovieResponse movieResponse) {
         //Setting Image backdrop on toolbar
         //Picasso
-//        Picasso.with(this)
-//                .load(NetworkUtils.getBackdropImageURL(movieResponse.getBackdropPath()))
-//                .placeholder(R.drawable.image_place_holder_back_drop)
-//                .error(R.drawable.broken_image_back_drop)
-//                .into(new Target() {
-//                    @Override
-//                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-//                        mToolbar.setBackground(new BitmapDrawable(getBaseContext().getResources(), bitmap));
-//                    }
-//
-//                    @Override
-//                    public void onBitmapFailed(Drawable errorDrawable) {
-//                        mToolbar.setBackground(errorDrawable);
-//
-//                    }
-//
-//                    @Override
-//                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-//                        mToolbar.setBackground(placeHolderDrawable);
-//
-//                    }
-//                });
-        GlideApp.with(this)
+        Picasso.with(this)
                 .load(NetworkUtils.getBackdropImageURL(movieResponse.getBackdropPath()))
                 .placeholder(R.drawable.image_place_holder_back_drop)
                 .error(R.drawable.broken_image_back_drop)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(new com.bumptech.glide.request.target.Target<Drawable>() {
+                .into(new Target() {
                     @Override
-                    public void onLoadStarted(@Nullable Drawable placeholder) {
-                        mToolbar.setBackground(placeholder);
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        mToolbar.setBackground(new BitmapDrawable(getBaseContext().getResources(), bitmap));
                     }
 
                     @Override
-                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                    public void onBitmapFailed(Drawable errorDrawable) {
                         mToolbar.setBackground(errorDrawable);
-                    }
-
-                    @Override
-                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                        mToolbar.setBackground(resource);
-                    }
-
-                    @Override
-                    public void onLoadCleared(@Nullable Drawable placeholder) {
 
                     }
 
                     @Override
-                    public void getSize(@NonNull SizeReadyCallback cb) {
-
-                    }
-
-                    @Override
-                    public void removeCallback(@NonNull SizeReadyCallback cb) {
-
-                    }
-
-                    @Override
-                    public void setRequest(@Nullable Request request) {
-
-                    }
-
-                    @Nullable
-                    @Override
-                    public Request getRequest() {
-                        return null;
-                    }
-
-                    @Override
-                    public void onStart() {
-
-                    }
-
-                    @Override
-                    public void onStop() {
-
-                    }
-
-                    @Override
-                    public void onDestroy() {
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+                        mToolbar.setBackground(placeHolderDrawable);
 
                     }
                 });
@@ -227,6 +165,7 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
         Log.i(param,response.toString());
         switch (param){
             case NetworkUtils.PATH_PARAM_CREDITS:
+                Log.i(param,JSONUtils.getMovieCast(response).toString());
                 break;
             case NetworkUtils.PATH_PARAM_REVIEWS:
                 break;
