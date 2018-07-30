@@ -2,6 +2,8 @@ package com.example.android.popularmovies.Utils;
 
 import com.example.android.popularmovies.data.network.MovieCreditsResponse;
 import com.example.android.popularmovies.data.network.MovieResponse;
+import com.example.android.popularmovies.data.network.MovieReviewsResponse;
+import com.example.android.popularmovies.data.network.MovieTrailersResponse;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -20,6 +22,8 @@ public class JSONUtils {
                                 ,VOTE_COUNT = "vote_count"
                                 ,VOTE_AVERAGE = "vote_average"
                                 ,MOVIE_CAST = "cast"
+                                ,MOVIE_REVIEWS = "results"
+                                ,MOVIE_TRAILERS = "results"
                                 ,MOVIE_ID = "id"
                                 ,MOVIE_TITLE = "title"
                                 ,RELEASE_DATE = "release_date"
@@ -53,6 +57,12 @@ public class JSONUtils {
         return movieResponseList;
     }
 
+    /**
+     *
+     * @param jsonResponse returned after requesting for movie credits
+     * @return a list of movie cast members
+     * Using the gson library
+     */
     public static List<MovieCreditsResponse> getMovieCast(JSONObject jsonResponse){
         Gson gson = new Gson();
         MovieCreditsResponse[] listCast = null;
@@ -62,6 +72,51 @@ public class JSONUtils {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return Arrays.asList(listCast);
+        if (listCast != null) {
+            return Arrays.asList(listCast);
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @param jsonResponse returned after requesting for movie reviews
+     * @return a list of movie reviews
+     * Using the gson library
+     */
+    public static List<MovieReviewsResponse> getMovieReviews(JSONObject jsonResponse){
+        Gson gson = new Gson();
+        MovieReviewsResponse[] listReviews = null;
+        try {
+            JSONArray reviewList = jsonResponse.getJSONArray(MOVIE_REVIEWS);
+            listReviews = gson.fromJson(reviewList.toString(),MovieReviewsResponse[].class);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if (listReviews != null) {
+            return Arrays.asList(listReviews);
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @param jsonResponse returned after requesting for movie trailers
+     * @return a list of movie trailers
+     * Using the gson library
+     */
+    public static List<MovieTrailersResponse> getMovieTrailers(JSONObject jsonResponse){
+        Gson gson = new Gson();
+        MovieTrailersResponse[] listTrailers = null;
+        try {
+            JSONArray trailerList = jsonResponse.getJSONArray(MOVIE_TRAILERS);
+            listTrailers = gson.fromJson(trailerList.toString(),MovieTrailersResponse[].class);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if (listTrailers != null) {
+            return Arrays.asList(listTrailers);
+        }
+        return null;
     }
 }

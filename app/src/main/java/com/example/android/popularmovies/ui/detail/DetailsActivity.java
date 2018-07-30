@@ -17,13 +17,17 @@ import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.Utils.GlideApp;
 import com.example.android.popularmovies.Utils.JSONUtils;
 import com.example.android.popularmovies.Utils.NetworkUtils;
+import com.example.android.popularmovies.data.network.MovieCreditsResponse;
 import com.example.android.popularmovies.data.network.MovieResponse;
+import com.example.android.popularmovies.data.network.MovieReviewsResponse;
+import com.example.android.popularmovies.data.network.MovieTrailersResponse;
 import com.example.android.popularmovies.ui.Interfaces.JsonDataDownloadInterface;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import org.json.JSONObject;
 
+import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -127,6 +131,46 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
     }
 
     /**
+     *
+     * @param listTrailers list of trailers which will be shown in the trailers recycler view
+     */
+    private void populateTrailers(List<MovieTrailersResponse> listTrailers){
+        if(listTrailers != null) {
+            Log.i("Trailers", listTrailers.toString());
+        }
+    }
+
+    /**
+     *
+     * @param listReviews list of reviews which will be displayed in the review section
+     */
+    private void populateReviews(List<MovieReviewsResponse> listReviews){
+        if(listReviews != null) {
+            Log.i("Reviews", listReviews.toString());
+        }
+    }
+
+    /**
+     *
+     * @param listCast list of cast which will be used to populate the cast recycler view
+     */
+    private void populateCast(List<MovieCreditsResponse> listCast){
+        if(listCast != null) {
+            Log.i("Cast", listCast.toString());
+        }
+    }
+
+    /**
+     *
+     * @param listSimilarMovie list of similar movies which will be suggested to the user
+     */
+    private void populateSimilarMovies(List<MovieResponse> listSimilarMovie){
+        if(listSimilarMovie != null) {
+            Log.i("Similar Movies", listSimilarMovie.toString());
+        }
+    }
+
+    /**
      * The home button has the same function as the back button , so that the shared element transition is reversed
      *
      * @param item menu item
@@ -150,29 +194,48 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
         finish();
     }
 
-    @Override
-    public void onResponse(JSONObject response) {
-        Log.i("Got it", response.toString());
-    }
-
+    /**
+     * This method is triggered by the networkUtils class , when there was an error getting data
+     *
+     * @param error the error which occurred while downloading data
+     */
     @Override
     public void onError(String error) {
 
     }
 
+    /**
+     * This method is triggered by the networkUtils class after receiving data
+     * This method gets specific data defined by params like similar movies and movie trailers
+     *
+     * @param response the response by the internet
+     */
     @Override
     public void onResponse(JSONObject response, String param) {
-        Log.i(param,response.toString());
+        Log.i("JSON RESPONSE : " + param,response.toString());
         switch (param){
             case NetworkUtils.PATH_PARAM_CREDITS:
-                Log.i(param,JSONUtils.getMovieCast(response).toString());
+                populateCast(JSONUtils.getMovieCast(response));
                 break;
             case NetworkUtils.PATH_PARAM_REVIEWS:
+                populateReviews(JSONUtils.getMovieReviews(response));
                 break;
             case NetworkUtils.PATH_PARAM_SIMILAR:
                 break;
             case NetworkUtils.PATH_PARAM_VIDEOS:
+                populateTrailers(JSONUtils.getMovieTrailers(response));
                 break;
         }
     }
+
+    /**
+     * This method is triggered by the networkUtils class , when data is downloaded from the internet successfully
+     *
+     * @param response the response from the internet
+     */
+    @Override
+    public void onResponse(JSONObject response) {
+
+    }
+
 }
