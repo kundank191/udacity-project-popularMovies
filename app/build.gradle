@@ -43,4 +43,7 @@ dependencies {
     implementation 'android.arch.lifecycle:extensions:1.1.1'
     //Using gson library
     implementation 'com.google.code.gson:gson:2.8.5'
+    //this library in order to achieve an ImageView which can smoothly display user's profile image or
+    // his username/name initial letter
+    implementation 'agency.tango.android:avatar-view-picasso:0.0.2'
 }
