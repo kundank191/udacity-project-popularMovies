@@ -54,6 +54,9 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
     @BindView(R.id.rv_cast)
     RecyclerView mCastRV;
     CastAdapter mCastAdapter;
+    @BindView(R.id.rv_reviews)
+    RecyclerView mReviewRV;
+    ReviewAdapter mReviewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,7 +154,9 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
      */
     private void populateReviews(List<MovieReviewsResponse> listReviews){
         if(listReviews != null) {
-            Log.i("Reviews", listReviews.toString());
+            mReviewAdapter = new ReviewAdapter(this,listReviews);
+            mReviewRV.setAdapter(mReviewAdapter);
+            mReviewRV.setLayoutManager(new LinearLayoutManager(this));
         }
     }
 
@@ -164,6 +169,7 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
             mCastAdapter = new CastAdapter(this,listCast);
             mCastRV.setAdapter(mCastAdapter);
             mCastRV.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+            mCastRV.setHorizontalFadingEdgeEnabled(true);
         }
     }
 

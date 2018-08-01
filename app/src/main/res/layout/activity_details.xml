@@ -80,16 +80,14 @@
             android:id="@+id/movieSynopsis_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_bottom_16dp"
             android:layout_marginEnd="@dimen/dimen_margin_start_16dp"
             android:layout_marginStart="@dimen/dimen_margin_start_16dp"
             android:text="@string/synopsis"
             android:textColor="@color/textColorSecondaryLight"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_overview_title" />
 
         <android.support.constraint.Guideline
             android:id="@+id/guideline"
@@ -99,17 +97,49 @@
             app:layout_constraintGuide_begin="336dp" />
 
         <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_start_16dp"
+            android:id="@+id/tv_overview_title"
             android:layout_marginTop="@dimen/margin_top_8dp"
             android:text="@string/overview"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:textColor="@color/textColorPrimaryLight"
+            style="@style/TitleTextView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline" />
 
+        <TextView
+            android:id="@+id/tv_cast_title"
+            style="@style/TitleTextView"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/movie_cast"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/movieSynopsis_tv" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_cast"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_cast_title"/>
+
+        <TextView
+            android:id="@+id/tv_reviews_title"
+            style="@style/TitleTextView"
+            android:text="@string/movie_reviews"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rv_cast"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_reviews"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_reviews_title">
+
+        </android.support.v7.widget.RecyclerView>
     </android.support.constraint.ConstraintLayout>
 
 </ScrollView>
