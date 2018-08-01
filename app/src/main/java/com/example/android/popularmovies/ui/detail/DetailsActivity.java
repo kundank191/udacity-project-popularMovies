@@ -6,6 +6,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -49,6 +51,9 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
     TextView movieSynopsisTV;
     @BindView(R.id.rating_tv)
     TextView ratingTV;
+    @BindView(R.id.rv_cast)
+    RecyclerView mCastRV;
+    CastAdapter mCastAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,7 +161,9 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
      */
     private void populateCast(List<MovieCreditsResponse> listCast){
         if(listCast != null) {
-            Log.i("Cast", listCast.toString());
+            mCastAdapter = new CastAdapter(this,listCast);
+            mCastRV.setAdapter(mCastAdapter);
+            mCastRV.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
         }
     }
 
