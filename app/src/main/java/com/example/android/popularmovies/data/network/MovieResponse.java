@@ -1,5 +1,8 @@
 package com.example.android.popularmovies.data.network;
 
+import com.example.android.popularmovies.Utils.JSONUtils;
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 /**
@@ -10,13 +13,21 @@ import java.io.Serializable;
  */
 public class MovieResponse implements Serializable {
 
+    @SerializedName(JSONUtils.MOVIE_TITLE)
     private String movieTitle;
+    @SerializedName(JSONUtils.SYNOPSIS)
     private String movieSynopsis;
+    @SerializedName(JSONUtils.BACKDROP_PATH)
     private String backdropPath;
+    @SerializedName(JSONUtils.POSTER_PATH)
     private String posterPath;
+    @SerializedName(JSONUtils.VOTE_AVERAGE)
     private Double voteAverage;
+    @SerializedName(JSONUtils.VOTE_COUNT)
     private Integer voteCount;
+    @SerializedName(JSONUtils.RELEASE_DATE)
     private String releaseDate;
+    @SerializedName(JSONUtils.MOVIE_ID)
     private String movieID;
 
     public MovieResponse(String movieID,String movieName, String movieSynopsis, String backdropPath, String posterPath, Double movieRatings, Integer ratingsCount, String releaseDate) {
