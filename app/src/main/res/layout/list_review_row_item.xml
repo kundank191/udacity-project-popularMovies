@@ -7,10 +7,12 @@
 
     <agency.tango.android.avatarview.views.AvatarView
         android:id="@+id/av_person"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/tv_person_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -19,10 +21,10 @@
         style="@style/TitleTextView"
         android:layout_width="0dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="64dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/av_person"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Name Of person" />
 
@@ -31,14 +33,16 @@
         style="@style/BodyTextView"
         android:layout_width="0dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="64dp"
         android:layout_marginTop="8dp"
+        android:maxLines="4"
+        android:ellipsize="end"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/av_person"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_person_name"
+        app:layout_constraintVertical_bias="1.0"
         tools:text="A very long text so long that you cant even imagine it will cross multiple linrs and after it crosses multiple lines it will look very very nice" />
 
 </android.support.constraint.ConstraintLayout>
