@@ -1,6 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:background="@color/colorPrimary"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/moviePoster_iv"
+        android:layout_width="100dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/image_place_holder_poster"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/movieTitle_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:maxLines="2"
+        app:layout_constraintEnd_toEndOf="@+id/moviePoster_iv"
+        app:layout_constraintStart_toStartOf="@+id/moviePoster_iv"
+        app:layout_constraintTop_toBottomOf="@+id/moviePoster_iv"
+        tools:text="Movie Title" />
+
+    <TextView
+        android:id="@+id/rating_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/moviePoster_iv"
+        app:layout_constraintStart_toStartOf="@+id/moviePoster_iv"
+        app:layout_constraintTop_toBottomOf="@+id/movieTitle_tv"
+        tools:text="4.5* (1234)" />
 
 </android.support.constraint.ConstraintLayout>

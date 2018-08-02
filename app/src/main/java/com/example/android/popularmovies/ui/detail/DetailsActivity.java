@@ -1,9 +1,6 @@
 package com.example.android.popularmovies.ui.detail;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,13 +22,10 @@ import com.example.android.popularmovies.data.network.MovieResponse;
 import com.example.android.popularmovies.data.network.MovieReviewsResponse;
 import com.example.android.popularmovies.data.network.MovieTrailersResponse;
 import com.example.android.popularmovies.ui.Interfaces.JsonDataDownloadInterface;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import org.json.JSONObject;
 
 import java.util.List;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,10 +34,10 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
 
     public static final String MOVIE_OBJECT_INTENT_KEY = "10123";
     private String API_KEY;
-    @BindView(R.id.app_bar_detail_activity)
-    android.support.v7.widget.Toolbar mToolbar;
+    @BindView(R.id.backdrop_iv_detail_activity)
+    ImageView mBackdropIV;
     @BindView(R.id.moviePoster_iv)
-    ImageView moviePoster_iv;
+    ImageView moviePosterIV;
     @BindView(R.id.movieTitle_tv)
     TextView movieNameTV;
     @BindView(R.id.movieReleaseDate_tv)
@@ -57,6 +52,9 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
     @BindView(R.id.rv_reviews)
     RecyclerView mReviewRV;
     ReviewAdapter mReviewAdapter;
+    @BindView(R.id.rv_similar_movies)
+    RecyclerView mSimilarMovieRV;
+    SimilarMovieAdapter mSimilarMovieAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,11 +63,8 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
 
         //Getting the API KEY
         API_KEY = getResources().getString(R.string.API_KEY);
-        //Binding views
-        ButterKnife.bind(this);
-        setSupportActionBar(mToolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        //Initialize views
+        initViews();
 
         //Get the intent and then retrieve the movie object from it
         Intent intent = getIntent();
@@ -92,43 +87,34 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
     }
 
     /**
+     * Will run in on create and initialize all the views
+     */
+    private void initViews(){
+        ButterKnife.bind(this);
+    }
+
+    /**
      * This function populates the UI with data
      *
      * @param movieResponse from this object all the data will be taken out to populate views
      */
     private void populateUI(MovieResponse movieResponse) {
-        //Setting Image backdrop on toolbar
-        //Picasso
-        Picasso.with(this)
+        //Setting Image backdrop
+        GlideApp.with(this)
                 .load(NetworkUtils.getBackdropImageURL(movieResponse.getBackdropPath()))
                 .placeholder(R.drawable.image_place_holder_back_drop)
                 .error(R.drawable.broken_image_back_drop)
-                .into(new Target() {
-                    @Override
-                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        mToolbar.setBackground(new BitmapDrawable(getBaseContext().getResources(), bitmap));
-                    }
-
-                    @Override
-                    public void onBitmapFailed(Drawable errorDrawable) {
-                        mToolbar.setBackground(errorDrawable);
-
-                    }
-
-                    @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-                        mToolbar.setBackground(placeHolderDrawable);
-
-                    }
-                });
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(mBackdropIV);
+        mBackdropIV.setContentDescription(movieResponse.getMovieTitle());
         //Setting the poster image
         GlideApp.with(this)
                 .load(NetworkUtils.getPosterImageURL(movieResponse.getPosterPath()))
                 .placeholder(R.drawable.image_place_holder_poster)
                 .error(R.drawable.broken_image_poster)
                 .transition(DrawableTransitionOptions.withCrossFade())
-                .into(moviePoster_iv);
-
+                .into(moviePosterIV);
+        moviePosterIV.setContentDescription(movieResponse.getMovieTitle());
         //This will populate the ratings text view \u2b50 is a code for a star
         String ratingText = (movieResponse.getVoteAverage() / 2) + " \u2b50 " + movieResponse.getVoteCount() + "  " + getResources().getString(R.string.ratings);
         ratingTV.setText(ratingText);
@@ -151,10 +137,18 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
     /**
      *
      * @param listReviews list of reviews which will be displayed in the review section
+     *                    A maximum of only three reviews will be shown on the details page
      */
     private void populateReviews(List<MovieReviewsResponse> listReviews){
         if(listReviews != null) {
-            mReviewAdapter = new ReviewAdapter(this,listReviews);
+            int maxReviews = getResources().getInteger(R.integer.num_reviews_max);
+            List<MovieReviewsResponse> list;
+            if(listReviews.size() >= 3){
+                list = listReviews.subList(0,maxReviews);
+            } else {
+                list = listReviews;
+            }
+            mReviewAdapter = new ReviewAdapter(this,list);
             mReviewRV.setAdapter(mReviewAdapter);
             mReviewRV.setLayoutManager(new LinearLayoutManager(this));
         }
@@ -179,7 +173,10 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
      */
     private void populateSimilarMovies(List<MovieResponse> listSimilarMovie){
         if(listSimilarMovie != null) {
-            Log.i("Similar Movies", listSimilarMovie.toString());
+            mSimilarMovieAdapter = new SimilarMovieAdapter(this,listSimilarMovie);
+            mSimilarMovieRV.setAdapter(mSimilarMovieAdapter);
+            mSimilarMovieRV.setLayoutManager(new LinearLayoutManager(this, LinearLayout.HORIZONTAL,false));
+            mCastRV.setHorizontalFadingEdgeEnabled(true);
         }
     }
 
@@ -234,6 +231,7 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
                 populateReviews(JSONUtils.getMovieReviews(response));
                 break;
             case NetworkUtils.PATH_PARAM_SIMILAR:
+                populateSimilarMovies(JSONUtils.getMovieList(response));
                 break;
             case NetworkUtils.PATH_PARAM_VIDEOS:
                 populateTrailers(JSONUtils.getMovieTrailers(response));
