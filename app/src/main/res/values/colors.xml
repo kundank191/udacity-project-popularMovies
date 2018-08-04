@@ -3,6 +3,12 @@
     <color name="colorPrimary">#424242</color>
     <color name="colorPrimaryDark">#212121</color>
     <color name="colorAccent">#fb8c00</color>
+    <color name="colorTextBlue">#457dff</color>
+    <color name="colorTextRed">#c24038</color>
+    <color name="colorTextPurple">#7e0097</color>
+    <color name="colorTextOrange">#ff8a65</color>
+    <color name="colorBackgroundGrey">#737984</color>
+    <color name="colorBackgroundLight">#616161</color>
 
     <!-- Text colors -->
     <color name="textColorPrimaryLight">#FFFFFF</color>

@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -34,6 +35,8 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
 
     public static final String MOVIE_OBJECT_INTENT_KEY = "10123";
     private String API_KEY;
+    @BindView(R.id.custom_back_button)
+    ImageView mBackButton;
     @BindView(R.id.backdrop_iv_detail_activity)
     ImageView mBackdropIV;
     @BindView(R.id.moviePoster_iv)
@@ -91,6 +94,12 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
      */
     private void initViews(){
         ButterKnife.bind(this);
+        mBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
 
     /**
