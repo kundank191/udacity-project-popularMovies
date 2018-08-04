@@ -22,8 +22,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Shows movie poster , content description set dynamically -->
+        <!-- Custom back button -->
         <ImageView
+            android:id="@+id/custom_back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -57,7 +58,7 @@
             android:layout_marginTop="@dimen/dimen_margin_top_16dp"
             android:text="@string/movie_placeholder_name"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            android:textColor="@color/textColorPrimaryLight"
+            android:textColor="@color/colorTextOrange"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/moviePoster_iv"
             app:layout_constraintTop_toBottomOf="@+id/backdrop_iv_detail_activity" />
@@ -70,7 +71,7 @@
             android:layout_marginStart="@dimen/dimen_margin_start"
             android:layout_marginTop="@dimen/margin_top_8dp"
             android:text="@string/release_date"
-            android:textColor="@color/textColorSecondaryLight"
+            android:textColor="@color/colorTextBlue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/moviePoster_iv"
             app:layout_constraintTop_toBottomOf="@+id/movieTitle_tv" />
@@ -97,7 +98,6 @@
             android:text="@string/synopsis"
             android:textColor="@color/textColorSecondaryLight"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_overview_title" />
 
@@ -113,6 +113,7 @@
             android:layout_marginTop="@dimen/margin_top_8dp"
             android:text="@string/overview"
             style="@style/TitleTextView"
+            android:textColor="@color/colorTextOrange"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline" />
 
@@ -122,6 +123,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:text="@string/movie_cast"
+            android:textColor="@color/colorTextOrange"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/movieSynopsis_tv" />
 
@@ -138,6 +140,7 @@
             android:id="@+id/tv_reviews_title"
             style="@style/TitleTextView"
             android:text="@string/movie_reviews"
+            android:textColor="@color/colorTextOrange"
             android:layout_marginStart="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rv_cast"/>
@@ -157,9 +160,12 @@
             android:id="@+id/similar_movies_view_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_top_8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            app:cardCornerRadius="8dp"
             app:cardBackgroundColor="@color/colorPrimary"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rv_reviews">
 
@@ -171,13 +177,15 @@
                 <TextView
                     android:id="@+id/tv_similar_movies_title"
                     style="@style/TitleTextView"
-                    android:text="@string/similar_movies_title"
                     android:layout_marginStart="8dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/rv_cast"/>
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:text="@string/similar_movies_title"
+                    android:textColor="@color/colorTextOrange" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_similar_movies"
+                    android:layout_marginStart="8dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
