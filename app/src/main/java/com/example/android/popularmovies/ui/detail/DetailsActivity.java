@@ -19,10 +19,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.example.android.popularmovies.AppExecutors;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.Utils.GlideApp;
 import com.example.android.popularmovies.Utils.JSONUtils;
 import com.example.android.popularmovies.Utils.NetworkUtils;
+import com.example.android.popularmovies.data.database.AppDatabase;
+import com.example.android.popularmovies.data.database.MovieEntry;
 import com.example.android.popularmovies.data.network.MovieCreditsResponse;
 import com.example.android.popularmovies.data.network.MovieResponse;
 import com.example.android.popularmovies.data.network.MovieReviewsResponse;
@@ -45,6 +48,7 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
     private String API_KEY;
     private MovieDetailViewModelFactory mFactory;
     private MovieDetailViewModel mViewModel;
+    private AppDatabase mDb;
     @BindView(R.id.custom_back_button)
     ImageView mBackButton;
     @BindView(R.id.backdrop_iv_detail_activity)
@@ -91,6 +95,7 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
         //Check if viewModel Has data
         if (mViewModel.getMovie() != null) {
             setDataFromViewModel();
+            initLikeFunction();
         } else {
             setDataFromIntent(getIntent());
         }
@@ -100,6 +105,9 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
      * Will run in on create and initialize all the views
      */
     private void init() {
+        //initializing database
+        mDb = AppDatabase.getInstance(getApplicationContext());
+
         ButterKnife.bind(this);
         mFactory = new MovieDetailViewModelFactory();
         mViewModel = ViewModelProviders.of(this, mFactory).get(MovieDetailViewModel.class);
@@ -110,16 +118,37 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
                 onBackPressed();
             }
         });
-        //Implement what happens when like button is pressed
+    }
+
+    /**
+     * Implement what happens when like button is pressed
+     */
+    private void initLikeFunction(){
         mLikeButton.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
-
+                AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                    final MovieEntry movieEntry = new MovieEntry(mViewModel.getMovie().getMovieID()
+                            ,mViewModel.getMovie().getPosterPath());
+                    @Override
+                    public void run() {
+                        mDb.movieDao().addFavMovie(movieEntry);
+                        Log.i("Added","Movie added man" + movieEntry.getMovieID());
+                    }
+                });
             }
 
             @Override
             public void unLiked(LikeButton likeButton) {
-
+                AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                    final MovieEntry movieEntry = new MovieEntry(mViewModel.getMovie().getMovieID()
+                            ,mViewModel.getMovie().getPosterPath());
+                    @Override
+                    public void run() {
+                        mDb.movieDao().removeFavMovie(movieEntry);
+                        Log.i("Removed","Movie removed man" + movieEntry.getMovieID());
+                    }
+                });
             }
         });
     }
@@ -178,7 +207,8 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
                 //If intent passed contains some cached data about the movie then that will be extracted and used
                 MovieResponse movieResponse = (MovieResponse) intent.getSerializableExtra(MOVIE_OBJECT_INTENT_KEY);
                 if (movieResponse != null) {
-                    populateUI(movieResponse);
+                    mViewModel.setMovie(movieResponse);
+                    populateUI(mViewModel.getMovie());
                     //Manipulate here after getting movie data
                     getMovieExtrasFromInternet(movieResponse.getMovieID());
 
@@ -215,6 +245,7 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
      * @param movieResponse from this object all the data will be taken out to populate views
      */
     private void populateUI(MovieResponse movieResponse) {
+        initLikeFunction();
         //Setting Image backdrop
         GlideApp.with(this)
                 .load(NetworkUtils.getBackdropImageURL(movieResponse.getBackdropPath()))
@@ -350,16 +381,20 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
         Log.i("JSON RESPONSE : " + param, response.toString());
         switch (param) {
             case NetworkUtils.PATH_PARAM_CREDITS:
-                populateCast(JSONUtils.getMovieCast(response));
+                mViewModel.setCastList(JSONUtils.getMovieCast(response));
+                populateCast(mViewModel.getCastList());
                 break;
             case NetworkUtils.PATH_PARAM_REVIEWS:
-                populateReviews(JSONUtils.getMovieReviews(response));
+                mViewModel.setReviewsList(JSONUtils.getMovieReviews(response));
+                populateReviews(mViewModel.getReviewsList());
                 break;
             case NetworkUtils.PATH_PARAM_SIMILAR:
-                populateSimilarMovies(JSONUtils.getMovieList(response));
+                mViewModel.setSimilarMovieList(JSONUtils.getMovieList(response));
+                populateSimilarMovies(mViewModel.getSimilarMovieList());
                 break;
             case NetworkUtils.PATH_PARAM_VIDEOS:
-                populateTrailers(JSONUtils.getMovieTrailers(response));
+                mViewModel.setTrailersList(JSONUtils.getMovieTrailers(response));
+                populateTrailers(mViewModel.getTrailersList());
                 break;
         }
     }
@@ -372,7 +407,8 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
     @Override
     public void onResponse(JSONObject response) {
         MovieResponse movie = JSONUtils.getMovieObject(response);
-        populateUI(movie);
+        mViewModel.setMovie(movie);
+        populateUI(mViewModel.getMovie());
     }
 
 }
