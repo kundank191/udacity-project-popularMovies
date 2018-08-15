@@ -23,7 +23,6 @@ import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.Utils.JSONUtils;
 import com.example.android.popularmovies.Utils.NetworkUtils;
 import com.example.android.popularmovies.data.database.AppDatabase;
-import com.example.android.popularmovies.data.database.MovieEntry;
 import com.example.android.popularmovies.data.network.MovieResponse;
 import com.example.android.popularmovies.ui.Interfaces.JsonDataDownloadInterface;
 import com.example.android.popularmovies.ui.Interfaces.ListItemClickInterface;
@@ -96,10 +95,13 @@ public class MainActivity extends AppCompatActivity implements JsonDataDownloadI
         //If favourite movies has been requested
         if (movieCode == CODE_FAV_MOVIES) {
             //Favourite movies will be queried from the database
-            viewModel.getFavouriteMovieList(getApplication()).observe(this, new Observer<List<MovieEntry>>() {
+            viewModel.getFavouriteMovieList(getApplication()).observe(this, new Observer<List<MovieResponse>>() {
                 @Override
-                public void onChanged(@Nullable List<MovieEntry> movieEntries) {
-                    Log.i("Worked Fine","I cant believe it" );
+                public void onChanged(@Nullable List<MovieResponse> favMovies) {
+                    viewModel.setMovieList(favMovies);
+                    if (toolbar.getTitle() == getResources().getString(R.string.favourites)){
+                        populateData(viewModel.getMovieList());
+                    }
                 }
             });
         }
@@ -211,19 +213,19 @@ public class MainActivity extends AppCompatActivity implements JsonDataDownloadI
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_popular_movies:
+                toolbar.setTitle(R.string.popular_movies);
                 //populates the recycler view with updated popular movie list
                 downloadAndPopulateMovieData(CODE_POPULAR_MOVIE);
-                toolbar.setTitle(R.string.popular_movies);
                 break;
             case R.id.menu_top_rated_movies:
+                toolbar.setTitle(R.string.top_rated_movies);
                 //populates the recycler view with updated now playing movie list
                 downloadAndPopulateMovieData(CODE_TOP_RATED_MOVIES);
-                toolbar.setTitle(R.string.top_rated_movies);
                 break;
             case R.id.menu_fav_movies:
+                toolbar.setTitle(R.string.favourites);
                 //Populates the recycler view with favourite movies
                 downloadAndPopulateMovieData(CODE_FAV_MOVIES);
-                toolbar.setTitle(R.string.favourites);
                 break;
         }
         return super.onOptionsItemSelected(item);

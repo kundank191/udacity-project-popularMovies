@@ -20,4 +20,8 @@
     <string name="synopsis">Synopsis</string>
     <string name="ratings">Ratings</string>
     <string name="overview">Overview</string>
+    <string name="movie_cast">Cast</string>
+    <string name="movie_reviews">Reviews</string>
+    <string name="similar_movies_title">Similar Movies</string>
+    <string name="favourites">Favourites</string>
 </resources>

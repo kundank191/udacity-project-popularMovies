@@ -5,7 +5,6 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
 import com.example.android.popularmovies.data.database.AppDatabase;
-import com.example.android.popularmovies.data.database.MovieEntry;
 import com.example.android.popularmovies.data.network.MovieResponse;
 
 import java.util.List;
@@ -30,7 +29,7 @@ public class MovieViewModel extends ViewModel {
         this.movieResponseList = movieResponseList;
     }
 
-    public LiveData<List<MovieEntry>> getFavouriteMovieList(Application application) {
+    public LiveData<List<MovieResponse>> getFavouriteMovieList(Application application) {
         AppDatabase mDb = AppDatabase.getInstance(application);
         return mDb.movieDao().loadAllFavMovie();
     }

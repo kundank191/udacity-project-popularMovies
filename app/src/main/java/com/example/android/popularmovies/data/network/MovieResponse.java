@@ -1,5 +1,9 @@
 package com.example.android.popularmovies.data.network;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
 import com.example.android.popularmovies.Utils.JSONUtils;
 import com.google.gson.annotations.SerializedName;
 
@@ -11,6 +15,7 @@ import java.io.Serializable;
  * It also has all the getter and setter methods for all the parameters
  * It implements Serializable so that it can be passed with intents
  */
+@Entity(tableName = "favourite")
 public class MovieResponse implements Serializable {
 
     @SerializedName(JSONUtils.MOVIE_TITLE)
@@ -27,25 +32,22 @@ public class MovieResponse implements Serializable {
     private Integer voteCount;
     @SerializedName(JSONUtils.RELEASE_DATE)
     private String releaseDate;
+    @PrimaryKey
+    @NonNull
     @SerializedName(JSONUtils.MOVIE_ID)
     private String movieID;
 
-    public MovieResponse(String movieID,String movieName, String movieSynopsis, String backdropPath, String posterPath, Double movieRatings, Integer ratingsCount, String releaseDate) {
+    //Added a constructor so that this object can be created using movieID
+    public MovieResponse(@NonNull String movieID){
         this.movieID = movieID;
-        this.movieTitle = movieName;
-        this.movieSynopsis = movieSynopsis;
-        this.backdropPath = backdropPath;
-        this.posterPath = posterPath;
-        this.voteAverage = movieRatings;
-        this.voteCount = ratingsCount;
-        this.releaseDate = releaseDate;
     }
 
+    @NonNull
     public String getMovieID() {
         return movieID;
     }
 
-    public void setMovieID(String movieID) {
+    public void setMovieID(@NonNull String movieID) {
         this.movieID = movieID;
     }
 
@@ -83,6 +85,10 @@ public class MovieResponse implements Serializable {
 
     public Double getVoteAverage() {
         return voteAverage;
+    }
+
+    public Double getVoteAverageOutOfFive(){
+        return voteAverage/2;
     }
 
     public void setVoteAverage(Double voteAverage) {

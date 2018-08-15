@@ -7,6 +7,8 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
+import com.example.android.popularmovies.data.network.MovieResponse;
+
 import java.util.List;
 
 /**
@@ -15,13 +17,16 @@ import java.util.List;
 @Dao
 public interface MovieDao {
 
-    @Query("SELECT * FROM favourites")
-    LiveData<List<MovieEntry>> loadAllFavMovie();
+    @Query("SELECT * FROM favourite")
+    LiveData<List<MovieResponse>> loadAllFavMovie();
+
+    @Query("SELECT * FROM favourite WHERE movieID = :movieID")
+    MovieResponse checkIfExist(String movieID);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void addFavMovie(MovieEntry movie);
+    void addFavMovie(MovieResponse movie);
 
     @Delete
-    void removeFavMovie(MovieEntry movie);
+    void removeFavMovie(MovieResponse movie);
 
 }

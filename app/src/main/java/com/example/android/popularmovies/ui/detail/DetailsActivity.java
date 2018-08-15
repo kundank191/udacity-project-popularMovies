@@ -25,7 +25,6 @@ import com.example.android.popularmovies.Utils.GlideApp;
 import com.example.android.popularmovies.Utils.JSONUtils;
 import com.example.android.popularmovies.Utils.NetworkUtils;
 import com.example.android.popularmovies.data.database.AppDatabase;
-import com.example.android.popularmovies.data.database.MovieEntry;
 import com.example.android.popularmovies.data.network.MovieCreditsResponse;
 import com.example.android.popularmovies.data.network.MovieResponse;
 import com.example.android.popularmovies.data.network.MovieReviewsResponse;
@@ -128,12 +127,11 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
             @Override
             public void liked(LikeButton likeButton) {
                 AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                    final MovieEntry movieEntry = new MovieEntry(mViewModel.getMovie().getMovieID()
-                            ,mViewModel.getMovie().getPosterPath());
+                    final MovieResponse movie = mViewModel.getMovie();
                     @Override
                     public void run() {
-                        mDb.movieDao().addFavMovie(movieEntry);
-                        Log.i("Added","Movie added man" + movieEntry.getMovieID());
+                        mDb.movieDao().addFavMovie(movie);
+                        Log.i("Added","Movie added man" + movie.getMovieID());
                     }
                 });
             }
@@ -141,12 +139,11 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
             @Override
             public void unLiked(LikeButton likeButton) {
                 AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                    final MovieEntry movieEntry = new MovieEntry(mViewModel.getMovie().getMovieID()
-                            ,mViewModel.getMovie().getPosterPath());
+                    final MovieResponse movie = mViewModel.getMovie();
                     @Override
                     public void run() {
-                        mDb.movieDao().removeFavMovie(movieEntry);
-                        Log.i("Removed","Movie removed man" + movieEntry.getMovieID());
+                        mDb.movieDao().removeFavMovie(movie);
+                        Log.i("Removed","Movie removed man" + movie.getMovieID());
                     }
                 });
             }
@@ -245,7 +242,10 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
      * @param movieResponse from this object all the data will be taken out to populate views
      */
     private void populateUI(MovieResponse movieResponse) {
+        //enabling functionality to favourite the movie on button click
         initLikeFunction();
+        //Check if movie is a favourite
+        setIfFavourite(movieResponse.getMovieID());
         //Setting Image backdrop
         GlideApp.with(this)
                 .load(NetworkUtils.getBackdropImageURL(movieResponse.getBackdropPath()))
@@ -269,6 +269,25 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
         movieReleaseDateTV.setText(movieResponse.getReleaseDate());
         movieSynopsisTV.setText(movieResponse.getMovieSynopsis());
 
+    }
+
+    /**
+     * Takes in movie Id and checks if it in the favourite movie list and updates UI accordingly
+     * @param movieID the ID of the movie
+     */
+    private void setIfFavourite(final String movieID){
+        final MovieResponse[] movieResponse = new MovieResponse[1];
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                movieResponse[0] = mDb.movieDao().checkIfExist(movieID);
+                //If the movie belongs to user favourites then it will be shown as liked
+                if (movieResponse[0] != null)
+                    mLikeButton.setLiked(true);
+                else
+                    mLikeButton.setLiked(false);
+            }
+        });
     }
 
     /**
