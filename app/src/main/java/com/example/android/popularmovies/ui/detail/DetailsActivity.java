@@ -70,6 +70,8 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
     ReviewAdapter mReviewAdapter;
     @BindView(R.id.rv_similar_movies)
     RecyclerView mSimilarMovieRV;
+    @BindView(R.id.rv_trailers)
+    RecyclerView mTrailerRV;
     @BindView(R.id.trailer_button)
     FloatingActionButton mTrailerButton;
     @BindView(R.id.like_button)
@@ -78,9 +80,12 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
     Group mCastGroup;
     @BindView(R.id.review_group)
     Group mReviewGroup;
+    @BindView(R.id.trailer_group)
+    Group mTrailerGroup;
     @BindView(R.id.similar_movies_view_group)
     CardView mSimilarMovieGroup;
     SimilarMovieAdapter mSimilarMovieAdapter;
+    TrailerAdapter mTrailerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -294,7 +299,7 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
      * @param listTrailers list of trailers which will be shown in the trailers recycler view
      */
     private void populateTrailers(final List<MovieTrailersResponse> listTrailers) {
-        if (listTrailers != null) {
+        if (listTrailers != null && listTrailers.size() != 0) {
             mTrailerButton.show();
             mTrailerButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -303,6 +308,11 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube://" + Video_Id)));
                 }
             });
+            mTrailerAdapter = new TrailerAdapter(this,listTrailers);
+            mTrailerRV.setAdapter(mTrailerAdapter);
+            mTrailerRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        } else {
+            mTrailerGroup.setVisibility(View.GONE);
         }
     }
 
@@ -311,7 +321,7 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
      *                    A maximum of only three reviews will be shown on the details page
      */
     private void populateReviews(List<MovieReviewsResponse> listReviews) {
-        if (listReviews != null) {
+        if (listReviews != null && listReviews.size() != 0) {
             int maxReviews = getResources().getInteger(R.integer.num_reviews_max);
             List<MovieReviewsResponse> list;
             if (listReviews.size() >= 3) {
@@ -331,7 +341,7 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
      * @param listCast list of cast which will be used to populate the cast recycler view
      */
     private void populateCast(List<MovieCreditsResponse> listCast) {
-        if (listCast != null) {
+        if (listCast != null && listCast.size() != 0) {
             mCastAdapter = new CastAdapter(this, listCast);
             mCastRV.setAdapter(mCastAdapter);
             mCastRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -345,7 +355,7 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
      * @param listSimilarMovie list of similar movies which will be suggested to the user
      */
     private void populateSimilarMovies(List<MovieResponse> listSimilarMovie) {
-        if (listSimilarMovie != null) {
+        if (listSimilarMovie != null && listSimilarMovie.size() != 0) {
             mSimilarMovieAdapter = new SimilarMovieAdapter(this, listSimilarMovie);
             mSimilarMovieRV.setAdapter(mSimilarMovieAdapter);
             mSimilarMovieRV.setLayoutManager(new LinearLayoutManager(this, LinearLayout.HORIZONTAL, false));
