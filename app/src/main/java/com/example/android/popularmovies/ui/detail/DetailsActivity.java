@@ -1,7 +1,10 @@
 package com.example.android.popularmovies.ui.detail;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +26,8 @@ import com.example.android.popularmovies.data.network.MovieResponse;
 import com.example.android.popularmovies.data.network.MovieReviewsResponse;
 import com.example.android.popularmovies.data.network.MovieTrailersResponse;
 import com.example.android.popularmovies.ui.Interfaces.JsonDataDownloadInterface;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 
 import org.json.JSONObject;
 
@@ -36,6 +41,8 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
     public static final String MOVIE_OBJECT_INTENT_KEY = "10123";
     public static final String MOVIE_ID_INTENT_KEY = "10122";
     private String API_KEY;
+    private MovieDetailViewModelFactory mFactory;
+    private MovieDetailViewModel mViewModel;
     @BindView(R.id.custom_back_button)
     ImageView mBackButton;
     @BindView(R.id.backdrop_iv_detail_activity)
@@ -58,6 +65,10 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
     ReviewAdapter mReviewAdapter;
     @BindView(R.id.rv_similar_movies)
     RecyclerView mSimilarMovieRV;
+    @BindView(R.id.trailer_button)
+    FloatingActionButton mTrailerButton;
+    @BindView(R.id.like_button)
+    LikeButton mLikeButton;
     SimilarMovieAdapter mSimilarMovieAdapter;
 
     @Override
@@ -67,9 +78,58 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
 
         //Getting the API KEY
         API_KEY = getResources().getString(R.string.API_KEY);
-        //Initialize views
-        initViews();
+        //Initialize
+        init();
+        //Check if viewModel Has data
+        if (mViewModel.getMovie() != null) {
+            setDataFromViewModel();
+        } else {
+            setDataFromIntent();
+        }
+    }
 
+    /**
+     * This Methods checks for which data is available in the view model and populates it if data
+     * is absent then it makes a network request
+     */
+    private void setDataFromViewModel() {
+        populateUI(mViewModel.getMovie());
+        String movieID = mViewModel.getMovie().getMovieID();
+
+        //If viewModel has Cast list it will be shown else downloaded
+        if (mViewModel.getCastList() != null) {
+            populateCast(mViewModel.getCastList());
+        } else {
+            NetworkUtils.getMovieCredits(this, movieID, API_KEY);
+        }
+
+        //If viewModel has Review list it will be shown else downloaded
+        if (mViewModel.getReviewsList() != null) {
+            populateReviews(mViewModel.getReviewsList());
+        } else {
+            NetworkUtils.getMovieReviews(this, movieID, API_KEY);
+        }
+
+        //If viewModel has Similar list it will be shown else downloaded
+        if (mViewModel.getSimilarMovieList() != null) {
+            populateSimilarMovies(mViewModel.getSimilarMovieList());
+        } else {
+            NetworkUtils.getSimilarMovies(this, movieID, API_KEY);
+        }
+
+        //If viewModel has Trailer list it will be shown else downloaded
+        if (mViewModel.getTrailersList() != null) {
+            populateTrailers(mViewModel.getTrailersList());
+        } else {
+            NetworkUtils.getMovieVideos(this, movieID, API_KEY);
+        }
+    }
+
+    /***
+     * If data is not available in the ViewModel then data will either be fetched from the intent or from the net
+     * depending on the passed intent
+     */
+    private void setDataFromIntent() {
         //Get the intent and then retrieve the movie object from it
         Intent intent = getIntent();
         if (intent != null) {
@@ -103,18 +163,34 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
     /**
      * Will run in on create and initialize all the views
      */
-    private void initViews() {
+    private void init() {
         ButterKnife.bind(this);
+        mFactory = new MovieDetailViewModelFactory();
+        mViewModel = ViewModelProviders.of(this, mFactory).get(MovieDetailViewModel.class);
+
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
             }
         });
+        //Implement what happens when like button is pressed
+        mLikeButton.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+
+            }
+        });
     }
 
     /**
      * This functions makes a network request to get Movie Reviews, Credits, Videos, Similar Movies
+     *
      * @param movieID the id of the movie whose data is to be downloaded
      */
     private void getMovieExtrasFromInternet(String movieID) {
@@ -160,9 +236,16 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
     /**
      * @param listTrailers list of trailers which will be shown in the trailers recycler view
      */
-    private void populateTrailers(List<MovieTrailersResponse> listTrailers) {
+    private void populateTrailers(final List<MovieTrailersResponse> listTrailers) {
         if (listTrailers != null) {
-            Log.i("Trailers", listTrailers.toString());
+            mTrailerButton.show();
+            mTrailerButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String Video_Id = listTrailers.get(0).getTrailerVideoID();
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube://" + Video_Id)));
+                }
+            });
         }
     }
 
@@ -240,8 +323,7 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
      */
     @Override
     public void onError(String error) {
-        Log.i(getLocalClassName(),error);
-        closeOnError();
+        Log.i(getLocalClassName(), error);
     }
 
     /**

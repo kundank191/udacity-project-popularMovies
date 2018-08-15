@@ -49,6 +49,30 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <android.support.design.widget.FloatingActionButton
+            android:visibility="gone"
+            android:id="@+id/trailer_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_play_arrow_black_24dp"
+            app:elevation="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/backdrop_iv_detail_activity"
+            app:layout_constraintEnd_toEndOf="@+id/backdrop_iv_detail_activity"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/backdrop_iv_detail_activity" />
+
+        <com.like.LikeButton
+            android:id="@+id/like_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon_size="18dp"
+            app:icon_type="heart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
         <TextView
             android:id="@+id/movieTitle_tv"
             android:layout_width="@dimen/width_0dp"
