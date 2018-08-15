@@ -60,6 +60,7 @@
 
         <!-- This layout will be visible when there is no favourite movie -->
         <TextView
+            android:visibility="gone"
             android:id="@+id/no_favourite_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.constraint.Group;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -73,7 +72,7 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
     @BindView(R.id.rv_trailers)
     RecyclerView mTrailerRV;
     @BindView(R.id.trailer_button)
-    FloatingActionButton mTrailerButton;
+    ImageView mTrailerButton;
     @BindView(R.id.like_button)
     LikeButton mLikeButton;
     @BindView(R.id.cast_group)
@@ -127,16 +126,17 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
     /**
      * Implement what happens when like button is pressed
      */
-    private void initLikeFunction(){
+    private void initLikeFunction() {
         mLikeButton.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
                 AppExecutors.getInstance().diskIO().execute(new Runnable() {
                     final MovieResponse movie = mViewModel.getMovie();
+
                     @Override
                     public void run() {
                         mDb.movieDao().addFavMovie(movie);
-                        Log.i("Added","Movie added man" + movie.getMovieID());
+                        Log.i("Added", "Movie added man" + movie.getMovieID());
                     }
                 });
             }
@@ -145,10 +145,11 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
             public void unLiked(LikeButton likeButton) {
                 AppExecutors.getInstance().diskIO().execute(new Runnable() {
                     final MovieResponse movie = mViewModel.getMovie();
+
                     @Override
                     public void run() {
                         mDb.movieDao().removeFavMovie(movie);
-                        Log.i("Removed","Movie removed man" + movie.getMovieID());
+                        Log.i("Removed", "Movie removed man" + movie.getMovieID());
                     }
                 });
             }
@@ -278,9 +279,10 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
 
     /**
      * Takes in movie Id and checks if it in the favourite movie list and updates UI accordingly
+     *
      * @param movieID the ID of the movie
      */
-    private void setIfFavourite(final String movieID){
+    private void setIfFavourite(final String movieID) {
         final MovieResponse[] movieResponse = new MovieResponse[1];
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
@@ -300,7 +302,8 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
      */
     private void populateTrailers(final List<MovieTrailersResponse> listTrailers) {
         if (listTrailers != null && listTrailers.size() != 0) {
-            mTrailerButton.show();
+            //making trailer visible button visible when trailer is avaliable
+            mTrailerButton.setVisibility(View.VISIBLE);
             mTrailerButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -308,7 +311,7 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube://" + Video_Id)));
                 }
             });
-            mTrailerAdapter = new TrailerAdapter(this,listTrailers);
+            mTrailerAdapter = new TrailerAdapter(this, listTrailers);
             mTrailerRV.setAdapter(mTrailerAdapter);
             mTrailerRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         } else {

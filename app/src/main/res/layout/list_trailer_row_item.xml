@@ -20,4 +20,20 @@
         app:layout_constraintTop_toTopOf="parent"
         android:contentDescription="@string/trailers"/>
 
+    <!-- Trailer Button -->
+    <ImageView
+        android:id="@+id/trailer_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/trailers"
+        android:src="@drawable/play_button"
+        app:layout_constraintBottom_toBottomOf="@+id/trailerPoster_iv"
+        app:layout_constraintEnd_toEndOf="@+id/trailerPoster_iv"
+        app:layout_constraintStart_toStartOf="@+id/trailerPoster_iv"
+        app:layout_constraintTop_toTopOf="@+id/trailerPoster_iv" />
+
 </android.support.constraint.ConstraintLayout>

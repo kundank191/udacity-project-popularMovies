@@ -17,10 +17,20 @@
             android:id="@+id/backdrop_iv_detail_activity"
             android:layout_width="match_parent"
             android:layout_height="@dimen/backdrop_height"
-            android:src="@drawable/image_place_holder_back_drop"
             android:scaleType="centerCrop"
+            android:src="@drawable/image_place_holder_back_drop"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Scrim layout for the backdrop -->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/scrim"
+            app:layout_constraintBottom_toBottomOf="@+id/backdrop_iv_detail_activity"
+            app:layout_constraintEnd_toEndOf="@+id/backdrop_iv_detail_activity"
+            app:layout_constraintStart_toStartOf="@+id/backdrop_iv_detail_activity"
+            app:layout_constraintTop_toTopOf="@+id/backdrop_iv_detail_activity" />
 
         <!-- Custom back button -->
         <ImageView
@@ -29,6 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:contentDescription="@string/back"
             android:src="@drawable/ic_round_arrow_back"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -37,20 +48,17 @@
             android:id="@+id/moviePoster_iv"
             android:layout_width="@dimen/small_poster_width"
             android:layout_height="@dimen/small_poster_height"
-            android:layout_marginBottom="@dimen/margin_bottom_16dp"
+            android:layout_marginBottom="@dimen/poster_margin_bottom"
             android:layout_marginStart="@dimen/margin_start_16dp"
-            android:layout_marginTop="@dimen/margin_top_image_poster"
             android:contentDescription="@string/image_placeholder_content_description"
             android:fadingEdge="vertical"
             android:fadingEdgeLength="4dp"
             android:src="@drawable/image_place_holder_poster"
             android:transitionName="@string/shared_poster_image"
             app:layout_constraintBottom_toTopOf="@+id/guideline"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:visibility="gone"
+        <ImageView
             android:id="@+id/trailer_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,8 +66,9 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:src="@drawable/ic_play_arrow_black_24dp"
-            app:elevation="0dp"
+            android:contentDescription="@string/trailers"
+            android:src="@drawable/play_button"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/backdrop_iv_detail_activity"
             app:layout_constraintEnd_toEndOf="@+id/backdrop_iv_detail_activity"
             app:layout_constraintStart_toStartOf="parent"
@@ -73,6 +82,7 @@
             app:icon_type="heart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/movieTitle_tv"
             android:layout_width="@dimen/width_0dp"
@@ -130,23 +140,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="336dp" />
+            app:layout_constraintGuide_begin="364dp" />
 
         <TextView
             android:id="@+id/tv_overview_title"
-            android:layout_marginTop="@dimen/margin_top_8dp"
-            android:text="@string/overview"
             style="@style/TitleTextView"
+            android:layout_marginTop="4dp"
+            android:text="@string/overview"
             android:textColor="@color/colorTextOrange"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline" />
 
-        <!-- Group will be used to hide entire section when data is null -->
+        <!-- Cast Group will be used to hide entire section when data is null -->
         <android.support.constraint.Group
             android:id="@+id/cast_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="tv_cast_title,rv_cast"/>
+            app:constraint_referenced_ids="tv_cast_title,rv_cast" />
 
         <TextView
             android:id="@+id/tv_cast_title"
@@ -165,23 +175,48 @@
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_cast_title"/>
+            app:layout_constraintTop_toBottomOf="@+id/tv_cast_title" />
 
-        <!-- Group will be used to hide entire section when data is null -->
+        <!-- Trailer Group will be used to hide entire section when data is null -->
+        <android.support.constraint.Group
+            android:id="@+id/trailer_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="tv_trailers_title,rv_trailers" />
+
+        <TextView
+            android:id="@+id/tv_trailers_title"
+            style="@style/TitleTextView"
+            android:layout_marginStart="16dp"
+            android:text="@string/trailers"
+            android:textColor="@color/colorTextOrange"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rv_cast" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_trailers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_trailers_title" />
+
+        <!-- Review Group will be used to hide entire section when data is null -->
         <android.support.constraint.Group
             android:id="@+id/review_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="tv_reviews_title,rv_reviews"/>
+            app:constraint_referenced_ids="tv_reviews_title,rv_reviews" />
 
         <TextView
             android:id="@+id/tv_reviews_title"
             style="@style/TitleTextView"
+            android:layout_marginStart="16dp"
             android:text="@string/movie_reviews"
             android:textColor="@color/colorTextOrange"
-            android:layout_marginStart="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rv_cast"/>
+            app:layout_constraintTop_toBottomOf="@+id/rv_trailers" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_reviews"
@@ -194,15 +229,16 @@
 
         </android.support.v7.widget.RecyclerView>
 
+        <!--Similar movies section-->
         <android.support.v7.widget.CardView
             android:id="@+id/similar_movies_view_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:layout_marginStart="8dp"
-            app:cardCornerRadius="8dp"
+            android:layout_marginTop="8dp"
             app:cardBackgroundColor="@color/colorPrimary"
+            app:cardCornerRadius="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rv_reviews">
@@ -223,9 +259,9 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_similar_movies"
-                    android:layout_marginStart="8dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp">
 
                 </android.support.v7.widget.RecyclerView>
             </LinearLayout>
