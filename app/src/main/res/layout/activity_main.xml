@@ -57,6 +57,20 @@
             android:text="@string/no_internet_connection"
             android:textColor="@color/textColorPrimaryLight" />
 
+
+        <!-- This layout will be visible when there is no favourite movie -->
+        <TextView
+            android:id="@+id/no_favourite_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/margin"
+            android:drawablePadding="@dimen/dimen_drawable_padding"
+            android:drawableTop="@drawable/no_favourites"
+            android:text="@string/no_favourites"
+            android:textColor="@color/textColorPrimaryLight" />
+
+
     </FrameLayout>
 
 </LinearLayout>

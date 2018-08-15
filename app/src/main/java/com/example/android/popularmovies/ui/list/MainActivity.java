@@ -56,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements JsonDataDownloadI
     TextView mEmptyStateView;
     @BindView(R.id.no_internet_view)
     TextView mNoInternetView;
+    @BindView(R.id.no_favourite_view)
+    TextView mNoFavouritesView;
     private MovieViewModelFactory mFactory;
 
     @Override
@@ -100,7 +102,11 @@ public class MainActivity extends AppCompatActivity implements JsonDataDownloadI
                 public void onChanged(@Nullable List<MovieResponse> favMovies) {
                     viewModel.setMovieList(favMovies);
                     if (toolbar.getTitle() == getResources().getString(R.string.favourites)){
-                        populateData(viewModel.getMovieList());
+                        if(favMovies!= null && favMovies.size() != 0) {
+                            populateData(viewModel.getMovieList());
+                        } else {
+                            showNoFavouritesUI();
+                        }
                     }
                 }
             });
@@ -246,6 +252,7 @@ public class MainActivity extends AppCompatActivity implements JsonDataDownloadI
      * If an error occurs then an error layout will be shown
      */
     private void showErrorUI() {
+        mNoFavouritesView.setVisibility(View.GONE);
         mRecyclerView.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.GONE);
         mEmptyStateView.setVisibility(View.VISIBLE);
@@ -256,6 +263,7 @@ public class MainActivity extends AppCompatActivity implements JsonDataDownloadI
      * When data is being loaded then a loading layout will be shown
      */
     private void showLoadingScreen() {
+        mNoFavouritesView.setVisibility(View.GONE);
         mRecyclerView.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.VISIBLE);
         mEmptyStateView.setVisibility(View.GONE);
@@ -266,9 +274,21 @@ public class MainActivity extends AppCompatActivity implements JsonDataDownloadI
      * If there is no internet connection then a No internet layout will be shown
      */
     private void showNoInternetUI() {
+        mNoFavouritesView.setVisibility(View.GONE);
         mRecyclerView.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.GONE);
         mEmptyStateView.setVisibility(View.GONE);
         mNoInternetView.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * If there is no internet connection then a No internet layout will be shown
+     */
+    private void showNoFavouritesUI() {
+        mNoFavouritesView.setVisibility(View.VISIBLE);
+        mRecyclerView.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.GONE);
+        mEmptyStateView.setVisibility(View.GONE);
+        mNoInternetView.setVisibility(View.GONE);
     }
 }
