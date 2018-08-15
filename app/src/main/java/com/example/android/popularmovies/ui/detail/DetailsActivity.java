@@ -4,8 +4,10 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.constraint.Group;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -69,6 +71,12 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
     FloatingActionButton mTrailerButton;
     @BindView(R.id.like_button)
     LikeButton mLikeButton;
+    @BindView(R.id.cast_group)
+    Group mCastGroup;
+    @BindView(R.id.review_group)
+    Group mReviewGroup;
+    @BindView(R.id.similar_movies_view_group)
+    CardView mSimilarMovieGroup;
     SimilarMovieAdapter mSimilarMovieAdapter;
 
     @Override
@@ -84,8 +92,36 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
         if (mViewModel.getMovie() != null) {
             setDataFromViewModel();
         } else {
-            setDataFromIntent();
+            setDataFromIntent(getIntent());
         }
+    }
+
+    /**
+     * Will run in on create and initialize all the views
+     */
+    private void init() {
+        ButterKnife.bind(this);
+        mFactory = new MovieDetailViewModelFactory();
+        mViewModel = ViewModelProviders.of(this, mFactory).get(MovieDetailViewModel.class);
+
+        mBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+        //Implement what happens when like button is pressed
+        mLikeButton.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+
+            }
+        });
     }
 
     /**
@@ -129,9 +165,8 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
      * If data is not available in the ViewModel then data will either be fetched from the intent or from the net
      * depending on the passed intent
      */
-    private void setDataFromIntent() {
+    private void setDataFromIntent(Intent intent) {
         //Get the intent and then retrieve the movie object from it
-        Intent intent = getIntent();
         if (intent != null) {
             if (intent.hasExtra(MOVIE_ID_INTENT_KEY)) {
                 //If only movie ID is passed then movie details will first be downloaded from the internet and then displayed
@@ -158,34 +193,6 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
         } else {
             closeOnError();
         }
-    }
-
-    /**
-     * Will run in on create and initialize all the views
-     */
-    private void init() {
-        ButterKnife.bind(this);
-        mFactory = new MovieDetailViewModelFactory();
-        mViewModel = ViewModelProviders.of(this, mFactory).get(MovieDetailViewModel.class);
-
-        mBackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
-        //Implement what happens when like button is pressed
-        mLikeButton.setOnLikeListener(new OnLikeListener() {
-            @Override
-            public void liked(LikeButton likeButton) {
-
-            }
-
-            @Override
-            public void unLiked(LikeButton likeButton) {
-
-            }
-        });
     }
 
     /**
@@ -265,6 +272,8 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
             mReviewAdapter = new ReviewAdapter(this, list);
             mReviewRV.setAdapter(mReviewAdapter);
             mReviewRV.setLayoutManager(new LinearLayoutManager(this));
+        } else {
+            mReviewGroup.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -277,6 +286,8 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
             mCastRV.setAdapter(mCastAdapter);
             mCastRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
             mCastRV.setHorizontalFadingEdgeEnabled(true);
+        } else {
+            mCastGroup.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -289,6 +300,8 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
             mSimilarMovieRV.setAdapter(mSimilarMovieAdapter);
             mSimilarMovieRV.setLayoutManager(new LinearLayoutManager(this, LinearLayout.HORIZONTAL, false));
             mCastRV.setHorizontalFadingEdgeEnabled(true);
+        } else {
+            mSimilarMovieGroup.setVisibility(View.GONE);
         }
     }
 
