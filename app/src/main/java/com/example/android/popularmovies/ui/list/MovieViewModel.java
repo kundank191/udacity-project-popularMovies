@@ -1,7 +1,11 @@
 package com.example.android.popularmovies.ui.list;
 
+import android.app.Application;
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
+import com.example.android.popularmovies.data.database.AppDatabase;
+import com.example.android.popularmovies.data.database.MovieEntry;
 import com.example.android.popularmovies.data.network.MovieResponse;
 
 import java.util.List;
@@ -16,6 +20,8 @@ public class MovieViewModel extends ViewModel {
 
     }
 
+    private List<MovieResponse> movieResponseList = null;
+
     public List<MovieResponse> getMovieList() {
         return movieResponseList;
     }
@@ -24,5 +30,8 @@ public class MovieViewModel extends ViewModel {
         this.movieResponseList = movieResponseList;
     }
 
-    private List<MovieResponse> movieResponseList = null;
+    public LiveData<List<MovieEntry>> getFavouriteMovieList(Application application) {
+        AppDatabase mDb = AppDatabase.getInstance(application);
+        return mDb.movieDao().loadAllFavMovie();
+    }
 }

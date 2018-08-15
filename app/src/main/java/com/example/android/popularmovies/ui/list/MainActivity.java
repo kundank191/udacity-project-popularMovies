@@ -1,11 +1,13 @@
 package com.example.android.popularmovies.ui.list;
 
 import android.app.ActivityOptions;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +22,8 @@ import android.widget.TextView;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.Utils.JSONUtils;
 import com.example.android.popularmovies.Utils.NetworkUtils;
+import com.example.android.popularmovies.data.database.AppDatabase;
+import com.example.android.popularmovies.data.database.MovieEntry;
 import com.example.android.popularmovies.data.network.MovieResponse;
 import com.example.android.popularmovies.ui.Interfaces.JsonDataDownloadInterface;
 import com.example.android.popularmovies.ui.Interfaces.ListItemClickInterface;
@@ -37,8 +41,10 @@ public class MainActivity extends AppCompatActivity implements JsonDataDownloadI
     private String API_KEY;
     final private int CODE_POPULAR_MOVIE = 123;
     final private int CODE_TOP_RATED_MOVIES = 126;
+    final private int CODE_FAV_MOVIES = 129;
     private int NUM_COLUMNS_GRID_LAYOUT = 2;
     private MovieViewModel viewModel;
+    private AppDatabase mDb;
     //Binding views
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
@@ -65,9 +71,12 @@ public class MainActivity extends AppCompatActivity implements JsonDataDownloadI
         //Set num of columns according to screen orientation
         NUM_COLUMNS_GRID_LAYOUT = getResources().getInteger(R.integer.num_colums_grid_view);
 
+        //Getting database instance
+        mDb = AppDatabase.getInstance(getApplicationContext());
+
         //Initializing view model Factory
         mFactory = new MovieViewModelFactory();
-        viewModel = ViewModelProviders.of(this,mFactory).get(MovieViewModel.class);
+        viewModel = ViewModelProviders.of(this, mFactory).get(MovieViewModel.class);
 
         //If View model has a movie list then it will be displayed else new data will be downloaded
         if (viewModel.getMovieList() != null) {
@@ -84,6 +93,16 @@ public class MainActivity extends AppCompatActivity implements JsonDataDownloadI
      * @param movieCode the preference according to which movies are to be displayed
      */
     private void downloadAndPopulateMovieData(int movieCode) {
+        //If favourite movies has been requested
+        if (movieCode == CODE_FAV_MOVIES) {
+            //Favourite movies will be queried from the database
+            viewModel.getFavouriteMovieList(getApplication()).observe(this, new Observer<List<MovieEntry>>() {
+                @Override
+                public void onChanged(@Nullable List<MovieEntry> movieEntries) {
+                    Log.i("Worked Fine","I cant believe it" );
+                }
+            });
+        }
         //Checks if device is connected to the internet
         if (isNetworkConnected()) {
             //A progress bar will be shown before download begins
@@ -160,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements JsonDataDownloadI
     /**
      * Handles what happens when a recycle view's item is clicked
      *
-     * @param key   this will be used to extract the movieResponse object in the details activity from intent extras
+     * @param key           this will be used to extract the movieResponse object in the details activity from intent extras
      * @param movieResponse object to be passed
      */
     @Override
@@ -200,6 +219,11 @@ public class MainActivity extends AppCompatActivity implements JsonDataDownloadI
                 //populates the recycler view with updated now playing movie list
                 downloadAndPopulateMovieData(CODE_TOP_RATED_MOVIES);
                 toolbar.setTitle(R.string.top_rated_movies);
+                break;
+            case R.id.menu_fav_movies:
+                //Populates the recycler view with favourite movies
+                downloadAndPopulateMovieData(CODE_FAV_MOVIES);
+                toolbar.setTitle(R.string.favourites);
                 break;
         }
         return super.onOptionsItemSelected(item);
