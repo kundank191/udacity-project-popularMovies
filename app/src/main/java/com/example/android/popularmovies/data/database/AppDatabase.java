@@ -5,7 +5,7 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
-import com.example.android.popularmovies.data.network.MovieResponse;
+import com.example.android.popularmovies.data.MovieResponse;
 
 /**
  * Created by Kundan on 15-08-2018.

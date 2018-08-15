@@ -1,7 +1,7 @@
 package com.example.android.popularmovies.Utils;
 
 import com.example.android.popularmovies.data.network.MovieCreditsResponse;
-import com.example.android.popularmovies.data.network.MovieResponse;
+import com.example.android.popularmovies.data.MovieResponse;
 import com.example.android.popularmovies.data.network.MovieReviewsResponse;
 import com.example.android.popularmovies.data.network.MovieTrailersResponse;
 import com.google.gson.Gson;

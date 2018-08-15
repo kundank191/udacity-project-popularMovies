@@ -13,7 +13,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.Utils.GlideApp;
 import com.example.android.popularmovies.Utils.NetworkUtils;
-import com.example.android.popularmovies.data.network.MovieResponse;
+import com.example.android.popularmovies.data.MovieResponse;
 import com.example.android.popularmovies.ui.Interfaces.ListItemClickInterface;
 import com.example.android.popularmovies.ui.detail.DetailsActivity;
 
@@ -63,7 +63,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     public MovieAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
 
-        View movieView = layoutInflater.inflate(R.layout.list_item, parent, false);
+        View movieView = layoutInflater.inflate(R.layout.list_movie_row_item, parent, false);
         return new ViewHolder(movieView);
     }
 

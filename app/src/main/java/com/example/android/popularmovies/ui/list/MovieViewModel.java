@@ -5,7 +5,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
 import com.example.android.popularmovies.data.database.AppDatabase;
-import com.example.android.popularmovies.data.network.MovieResponse;
+import com.example.android.popularmovies.data.MovieResponse;
 
 import java.util.List;
 

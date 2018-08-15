@@ -41,13 +41,12 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
 
     private List<MovieCreditsResponse> mCastList;
     private final Context mContext;
-    private IImageLoader mImageLoader;
 
     /**
      * @param context  of the Activity
      * @param castList The list of cast to be displayed
      */
-    public CastAdapter(Context context, List<MovieCreditsResponse> castList) {
+    CastAdapter(Context context, List<MovieCreditsResponse> castList) {
         mCastList = castList;
         mContext = context;
     }
@@ -69,7 +68,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
 
         holder.personNameTV.setText(castData.getPersonName());
 
-        mImageLoader = new PicassoLoader();
+        IImageLoader mImageLoader = new PicassoLoader();
         mImageLoader.loadImage(holder.personAV
                 , NetworkUtils.getPosterImageURL(castData.getPersonImageUrlPath())
                 , castData.getPersonName());

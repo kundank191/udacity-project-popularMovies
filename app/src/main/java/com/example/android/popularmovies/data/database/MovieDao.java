@@ -7,7 +7,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
-import com.example.android.popularmovies.data.network.MovieResponse;
+import com.example.android.popularmovies.data.MovieResponse;
 
 import java.util.List;
 

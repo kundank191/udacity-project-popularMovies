@@ -42,13 +42,12 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
 
     private List<MovieReviewsResponse> mReviewList;
     private final Context mContext;
-    private IImageLoader mImageLoader;
 
     /**
      * @param context     of the Activity
      * @param listReviews The list of reviews to be displayed
      */
-    public ReviewAdapter(Context context, List<MovieReviewsResponse> listReviews) {
+    ReviewAdapter(Context context, List<MovieReviewsResponse> listReviews) {
         mReviewList = listReviews;
         mContext = context;
     }
@@ -67,7 +66,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         MovieReviewsResponse reviewData = mReviewList.get(position);
         holder.personNameTV.setText(reviewData.getAuthorName());
         holder.personReviewTV.setText(reviewData.getAuthorReview());
-        mImageLoader = new PicassoLoader();
+        IImageLoader mImageLoader = new PicassoLoader();
         mImageLoader.loadImage(holder.personAV,reviewData.getAuthorName(),reviewData.getAuthorName());
     }
 

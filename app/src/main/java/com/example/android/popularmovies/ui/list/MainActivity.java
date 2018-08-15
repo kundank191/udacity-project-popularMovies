@@ -23,7 +23,7 @@ import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.Utils.JSONUtils;
 import com.example.android.popularmovies.Utils.NetworkUtils;
 import com.example.android.popularmovies.data.database.AppDatabase;
-import com.example.android.popularmovies.data.network.MovieResponse;
+import com.example.android.popularmovies.data.MovieResponse;
 import com.example.android.popularmovies.ui.Interfaces.JsonDataDownloadInterface;
 import com.example.android.popularmovies.ui.Interfaces.ListItemClickInterface;
 import com.example.android.popularmovies.ui.detail.DetailsActivity;
@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity implements JsonDataDownloadI
     TextView mNoInternetView;
     @BindView(R.id.no_favourite_view)
     TextView mNoFavouritesView;
-    private MovieViewModelFactory mFactory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements JsonDataDownloadI
         mDb = AppDatabase.getInstance(getApplicationContext());
 
         //Initializing view model Factory
-        mFactory = new MovieViewModelFactory();
+        MovieViewModelFactory mFactory = new MovieViewModelFactory();
         viewModel = ViewModelProviders.of(this, mFactory).get(MovieViewModel.class);
 
         //If View model has a movie list then it will be displayed else new data will be downloaded
@@ -101,8 +100,8 @@ public class MainActivity extends AppCompatActivity implements JsonDataDownloadI
                 @Override
                 public void onChanged(@Nullable List<MovieResponse> favMovies) {
                     viewModel.setMovieList(favMovies);
-                    if (toolbar.getTitle() == getResources().getString(R.string.favourites)){
-                        if(favMovies!= null && favMovies.size() != 0) {
+                    if (toolbar.getTitle() == getResources().getString(R.string.favourites)) {
+                        if (favMovies != null && favMovies.size() != 0) {
                             populateData(viewModel.getMovieList());
                         } else {
                             showNoFavouritesUI();

@@ -3,7 +3,7 @@ package com.example.android.popularmovies.ui.detail;
 import android.arch.lifecycle.ViewModel;
 
 import com.example.android.popularmovies.data.network.MovieCreditsResponse;
-import com.example.android.popularmovies.data.network.MovieResponse;
+import com.example.android.popularmovies.data.MovieResponse;
 import com.example.android.popularmovies.data.network.MovieReviewsResponse;
 import com.example.android.popularmovies.data.network.MovieTrailersResponse;
 

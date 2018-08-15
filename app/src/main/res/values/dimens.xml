@@ -11,10 +11,22 @@
     <dimen name="small_poster_height">180dp</dimen>
     <dimen name="margin_top_8dp">8dp</dimen>
     <dimen name="dimen_margin_start_16dp">16dp</dimen>
-    <dimen name="margin_top_image_poster">140dp</dimen>
     <dimen name="margin_start_16dp">16dp</dimen>
     <dimen name="width_0dp">0dp</dimen>
-    <dimen name="margin_bottom_16dp">16dp</dimen>
     <dimen name="dimen_margin_top_16dp">16dp</dimen>
     <dimen name="dimen_drawable_padding">8dp</dimen>
+    <dimen name="poster_margin_bottom">24dp</dimen>
+    <dimen name="image_fading_length">4dp</dimen>
+    <dimen name="margin_8dp">8dp</dimen>
+    <dimen name="icon_size">18dp</dimen>
+    <dimen name="margin_4dp">4dp</dimen>
+    <dimen name="margin_16dp">16dp</dimen>
+    <dimen name="card_corner_radius">8dp</dimen>
+    <dimen name="avatar_view_dimen">64dp</dimen>
+    <dimen name="avatar_view_dimen_small">36dp</dimen>
+    <dimen name="margin_64dp">64dp</dimen>
+    <dimen name="poster_width">100dp</dimen>
+    <dimen name="poster_height">150dp</dimen>
+    <dimen name="backdrop_width">150dp</dimen>
+    <dimen name="backdrop_height_small">100dp</dimen>
 </resources>

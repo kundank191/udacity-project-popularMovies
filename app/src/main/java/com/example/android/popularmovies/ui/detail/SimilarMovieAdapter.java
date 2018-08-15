@@ -1,7 +1,9 @@
 package com.example.android.popularmovies.ui.detail;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +15,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.Utils.GlideApp;
 import com.example.android.popularmovies.Utils.NetworkUtils;
-import com.example.android.popularmovies.data.network.MovieResponse;
+import com.example.android.popularmovies.data.MovieResponse;
 
 import java.util.List;
 
@@ -23,9 +25,9 @@ import butterknife.ButterKnife;
 /**
  * Created by Kundan on 02-08-2018.
  */
-public class SimilarMovieAdapter extends RecyclerView.Adapter<SimilarMovieAdapter.ViewHolder>{
+public class SimilarMovieAdapter extends RecyclerView.Adapter<SimilarMovieAdapter.ViewHolder> {
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.movieTitle_tv)
         TextView movieNameTV;
@@ -33,10 +35,12 @@ public class SimilarMovieAdapter extends RecyclerView.Adapter<SimilarMovieAdapte
         ImageView moviePosterIV;
         @BindView(R.id.rating_tv)
         TextView movieRatingsTV;
+        @BindView(R.id.similar_movie_item)
+        ConstraintLayout movieItem;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 
@@ -47,7 +51,7 @@ public class SimilarMovieAdapter extends RecyclerView.Adapter<SimilarMovieAdapte
      * @param context   of the Activity
      * @param movieList The list of movie to be displayed
      */
-    public SimilarMovieAdapter(Context context, List<MovieResponse> movieList) {
+    SimilarMovieAdapter(Context context, List<MovieResponse> movieList) {
         mContext = context;
         mMovieList = movieList;
     }
@@ -57,7 +61,7 @@ public class SimilarMovieAdapter extends RecyclerView.Adapter<SimilarMovieAdapte
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
 
-        View movieView = layoutInflater.inflate(R.layout.list_similar_movies_row_item,parent,false);
+        View movieView = layoutInflater.inflate(R.layout.list_similar_movies_row_item, parent, false);
         return new ViewHolder(movieView);
     }
 
@@ -66,7 +70,17 @@ public class SimilarMovieAdapter extends RecyclerView.Adapter<SimilarMovieAdapte
         final MovieResponse movie = mMovieList.get(position);
 
         holder.movieNameTV.setText(movie.getMovieTitle());
+        holder.moviePosterIV.setContentDescription(movie.getMovieTitle());
         holder.movieRatingsTV.setText(String.format("%s ⭐ ", movie.getVoteAverageOutOfFive().toString()));
+        //on click a details activity will open for that movie
+        holder.movieItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, DetailsActivity.class);
+                intent.putExtra(DetailsActivity.MOVIE_ID_INTENT_KEY, movie.getMovieID());
+                mContext.startActivity(intent);
+            }
+        });
         GlideApp.with(mContext)
                 .load(NetworkUtils.getPosterImageURL(movie.getPosterPath()))
                 .placeholder(R.drawable.image_place_holder_poster)

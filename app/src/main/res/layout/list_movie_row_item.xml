@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <!-- this xml file is used to display movie item -->
     <ImageView
         android:id="@+id/moviePoster_iv"
         android:layout_width="match_parent"
@@ -12,7 +13,6 @@
         android:scaleType="centerCrop"
         android:transitionName="@string/shared_poster_image"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/image_place_holder_poster" />

@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    android:background="@color/colorPrimary"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/similar_movie_item"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary">
 
+    <!-- Shows movie poster , content description set dynamically -->
     <ImageView
         android:id="@+id/moviePoster_iv"
-        android:layout_width="100dp"
-        android:layout_height="150dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="@dimen/poster_width"
+        android:layout_height="@dimen/poster_height"
+        android:layout_marginStart="@dimen/margin_8dp"
+        android:layout_marginTop="@dimen/margin_8dp"
         android:src="@drawable/image_place_holder_poster"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -21,8 +22,9 @@
         android:id="@+id/movieTitle_tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/margin_8dp"
         android:maxLines="2"
+        android:textColor="@color/textColorPrimaryLight"
         app:layout_constraintEnd_toEndOf="@+id/moviePoster_iv"
         app:layout_constraintStart_toStartOf="@+id/moviePoster_iv"
         app:layout_constraintTop_toBottomOf="@+id/moviePoster_iv"
@@ -32,7 +34,10 @@
         android:id="@+id/rating_tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="@dimen/margin_8dp"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/textColorPrimaryLight"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/moviePoster_iv"
         app:layout_constraintStart_toStartOf="@+id/moviePoster_iv"
         app:layout_constraintTop_toBottomOf="@+id/movieTitle_tv"

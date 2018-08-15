@@ -25,7 +25,7 @@ import com.example.android.popularmovies.Utils.JSONUtils;
 import com.example.android.popularmovies.Utils.NetworkUtils;
 import com.example.android.popularmovies.data.database.AppDatabase;
 import com.example.android.popularmovies.data.network.MovieCreditsResponse;
-import com.example.android.popularmovies.data.network.MovieResponse;
+import com.example.android.popularmovies.data.MovieResponse;
 import com.example.android.popularmovies.data.network.MovieReviewsResponse;
 import com.example.android.popularmovies.data.network.MovieTrailersResponse;
 import com.example.android.popularmovies.ui.Interfaces.JsonDataDownloadInterface;
@@ -44,7 +44,6 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
     public static final String MOVIE_OBJECT_INTENT_KEY = "10123";
     public static final String MOVIE_ID_INTENT_KEY = "10122";
     private String API_KEY;
-    private MovieDetailViewModelFactory mFactory;
     private MovieDetailViewModel mViewModel;
     private AppDatabase mDb;
     @BindView(R.id.custom_back_button)
@@ -112,7 +111,7 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
         mDb = AppDatabase.getInstance(getApplicationContext());
 
         ButterKnife.bind(this);
-        mFactory = new MovieDetailViewModelFactory();
+        MovieDetailViewModelFactory mFactory = new MovieDetailViewModelFactory();
         mViewModel = ViewModelProviders.of(this, mFactory).get(MovieDetailViewModel.class);
 
         mBackButton.setOnClickListener(new View.OnClickListener() {
@@ -136,9 +135,9 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
                     @Override
                     public void run() {
                         mDb.movieDao().addFavMovie(movie);
-                        Log.i("Added", "Movie added man" + movie.getMovieID());
                     }
                 });
+                Toast.makeText(getBaseContext(),R.string.added_to_fav,Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -149,9 +148,9 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
                     @Override
                     public void run() {
                         mDb.movieDao().removeFavMovie(movie);
-                        Log.i("Removed", "Movie removed man" + movie.getMovieID());
                     }
                 });
+                Toast.makeText(getBaseContext(),R.string.removed_from_fav,Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -410,7 +409,6 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
      */
     @Override
     public void onResponse(JSONObject response, String param) {
-        Log.i("JSON RESPONSE : " + param, response.toString());
         switch (param) {
             case NetworkUtils.PATH_PARAM_CREDITS:
                 mViewModel.setCastList(JSONUtils.getMovieCast(response));

@@ -1,34 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    android:id="@+id/trailer_row_item"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/trailer_row_item"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
+    <!-- this xml file is used to display trailer -->
     <ImageView
         android:id="@+id/trailerPoster_iv"
-        android:layout_width="150dp"
-        android:layout_height="100dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="@dimen/backdrop_width"
+        android:layout_height="@dimen/backdrop_height_small"
+        android:layout_marginBottom="@dimen/margin_8dp"
+        android:layout_marginStart="@dimen/margin_8dp"
         android:layout_marginTop="0dp"
+        android:contentDescription="@string/trailers"
         android:src="@drawable/image_place_holder_back_drop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/trailers"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Trailer Button -->
     <ImageView
         android:id="@+id/trailer_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="@dimen/margin_8dp"
+        android:layout_marginEnd="@dimen/margin_8dp"
+        android:layout_marginStart="@dimen/margin_8dp"
+        android:layout_marginTop="@dimen/margin_8dp"
         android:contentDescription="@string/trailers"
         android:src="@drawable/play_button"
         app:layout_constraintBottom_toBottomOf="@+id/trailerPoster_iv"

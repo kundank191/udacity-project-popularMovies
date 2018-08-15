@@ -52,7 +52,7 @@
             android:layout_marginStart="@dimen/margin_start_16dp"
             android:contentDescription="@string/image_placeholder_content_description"
             android:fadingEdge="vertical"
-            android:fadingEdgeLength="4dp"
+            android:fadingEdgeLength="@dimen/image_fading_length"
             android:src="@drawable/image_place_holder_poster"
             android:transitionName="@string/shared_poster_image"
             app:layout_constraintBottom_toTopOf="@+id/guideline"
@@ -62,10 +62,10 @@
             android:id="@+id/trailer_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginBottom="@dimen/margin_8dp"
+            android:layout_marginEnd="@dimen/margin_8dp"
+            android:layout_marginStart="@dimen/margin_8dp"
+            android:layout_marginTop="@dimen/margin_8dp"
             android:contentDescription="@string/trailers"
             android:src="@drawable/play_button"
             android:visibility="gone"
@@ -78,7 +78,7 @@
             android:id="@+id/like_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:icon_size="18dp"
+            app:icon_size="@dimen/icon_size"
             app:icon_type="heart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -145,7 +145,7 @@
         <TextView
             android:id="@+id/tv_overview_title"
             style="@style/TitleTextView"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="@dimen/margin_4dp"
             android:text="@string/overview"
             android:textColor="@color/colorTextOrange"
             app:layout_constraintStart_toStartOf="parent"
@@ -161,8 +161,8 @@
         <TextView
             android:id="@+id/tv_cast_title"
             style="@style/TitleTextView"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="@dimen/margin_16dp"
+            android:layout_marginTop="@dimen/margin_8dp"
             android:text="@string/movie_cast"
             android:textColor="@color/colorTextOrange"
             app:layout_constraintStart_toStartOf="parent"
@@ -172,7 +172,7 @@
             android:id="@+id/rv_cast"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/margin_8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_cast_title" />
@@ -187,7 +187,7 @@
         <TextView
             android:id="@+id/tv_trailers_title"
             style="@style/TitleTextView"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="@dimen/margin_16dp"
             android:text="@string/trailers"
             android:textColor="@color/colorTextOrange"
             app:layout_constraintStart_toStartOf="parent"
@@ -197,7 +197,7 @@
             android:id="@+id/rv_trailers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/margin_8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_trailers_title" />
@@ -212,7 +212,7 @@
         <TextView
             android:id="@+id/tv_reviews_title"
             style="@style/TitleTextView"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="@dimen/margin_16dp"
             android:text="@string/movie_reviews"
             android:textColor="@color/colorTextOrange"
             app:layout_constraintStart_toStartOf="parent"
@@ -222,7 +222,7 @@
             android:id="@+id/rv_reviews"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/margin_8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_reviews_title">
@@ -234,11 +234,11 @@
             android:id="@+id/similar_movies_view_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginBottom="@dimen/margin_8dp"
+            android:layout_marginStart="@dimen/margin_8dp"
+            android:layout_marginTop="@dimen/margin_8dp"
             app:cardBackgroundColor="@color/colorPrimary"
-            app:cardCornerRadius="8dp"
+            app:cardCornerRadius="@dimen/card_corner_radius"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rv_reviews">
@@ -251,9 +251,9 @@
                 <TextView
                     android:id="@+id/tv_similar_movies_title"
                     style="@style/TitleTextView"
-                    android:layout_marginStart="8dp"
-                    android:paddingBottom="8dp"
-                    android:paddingTop="8dp"
+                    android:layout_marginStart="@dimen/margin_8dp"
+                    android:paddingBottom="@dimen/margin_8dp"
+                    android:paddingTop="@dimen/margin_8dp"
                     android:text="@string/similar_movies_title"
                     android:textColor="@color/colorTextOrange" />
 
@@ -261,7 +261,7 @@
                     android:id="@+id/rv_similar_movies"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp">
+                    android:layout_marginStart="@dimen/margin_8dp">
 
                 </android.support.v7.widget.RecyclerView>
             </LinearLayout>
