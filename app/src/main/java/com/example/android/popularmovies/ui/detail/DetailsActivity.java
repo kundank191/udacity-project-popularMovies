@@ -34,6 +34,7 @@ import butterknife.ButterKnife;
 public class DetailsActivity extends AppCompatActivity implements JsonDataDownloadInterface {
 
     public static final String MOVIE_OBJECT_INTENT_KEY = "10123";
+    public static final String MOVIE_ID_INTENT_KEY = "10122";
     private String API_KEY;
     @BindView(R.id.custom_back_button)
     ImageView mBackButton;
@@ -72,16 +73,26 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
         //Get the intent and then retrieve the movie object from it
         Intent intent = getIntent();
         if (intent != null) {
-            MovieResponse movieResponse = (MovieResponse) intent.getSerializableExtra(MOVIE_OBJECT_INTENT_KEY);
-            if (movieResponse != null) {
-                populateUI(movieResponse);
-                //Manipulate here after getting movie data
-                NetworkUtils.getMovieDetails(this, movieResponse.getMovieID(), API_KEY);
-                NetworkUtils.getMovieReviews(this,movieResponse.getMovieID(),API_KEY);
-                NetworkUtils.getMovieCredits(this,movieResponse.getMovieID(),API_KEY);
-                NetworkUtils.getMovieVideos(this,movieResponse.getMovieID(),API_KEY);
-                NetworkUtils.getSimilarMovies(this,movieResponse.getMovieID(),API_KEY);
+            if (intent.hasExtra(MOVIE_ID_INTENT_KEY)) {
+                //If only movie ID is passed then movie details will first be downloaded from the internet and then displayed
+                String movieID = intent.getStringExtra(MOVIE_ID_INTENT_KEY);
+                NetworkUtils.getMovieDetails(this, movieID, API_KEY);
+                getMovieExtrasFromInternet(movieID);
+
+            } else if (intent.hasExtra(MOVIE_OBJECT_INTENT_KEY)) {
+                //If intent passed contains some cached data about the movie then that will be extracted and used
+                MovieResponse movieResponse = (MovieResponse) intent.getSerializableExtra(MOVIE_OBJECT_INTENT_KEY);
+                if (movieResponse != null) {
+                    populateUI(movieResponse);
+                    //Manipulate here after getting movie data
+                    getMovieExtrasFromInternet(movieResponse.getMovieID());
+
+                } else {
+                    //if object sent is null
+                    closeOnError();
+                }
             } else {
+                //If intent doesn't have any relevant intent key
                 closeOnError();
             }
         } else {
@@ -92,7 +103,7 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
     /**
      * Will run in on create and initialize all the views
      */
-    private void initViews(){
+    private void initViews() {
         ButterKnife.bind(this);
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,6 +112,19 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
             }
         });
     }
+
+    /**
+     * This functions makes a network request to get Movie Reviews, Credits, Videos, Similar Movies
+     * @param movieID the id of the movie whose data is to be downloaded
+     */
+    private void getMovieExtrasFromInternet(String movieID) {
+        //get Movie Details , Reviews , Credits , Videos and Similar movies
+        NetworkUtils.getMovieReviews(this, movieID, API_KEY);
+        NetworkUtils.getMovieCredits(this, movieID, API_KEY);
+        NetworkUtils.getMovieVideos(this, movieID, API_KEY);
+        NetworkUtils.getSimilarMovies(this, movieID, API_KEY);
+    }
+
 
     /**
      * This function populates the UI with data
@@ -134,57 +158,53 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
     }
 
     /**
-     *
      * @param listTrailers list of trailers which will be shown in the trailers recycler view
      */
-    private void populateTrailers(List<MovieTrailersResponse> listTrailers){
-        if(listTrailers != null) {
+    private void populateTrailers(List<MovieTrailersResponse> listTrailers) {
+        if (listTrailers != null) {
             Log.i("Trailers", listTrailers.toString());
         }
     }
 
     /**
-     *
      * @param listReviews list of reviews which will be displayed in the review section
      *                    A maximum of only three reviews will be shown on the details page
      */
-    private void populateReviews(List<MovieReviewsResponse> listReviews){
-        if(listReviews != null) {
+    private void populateReviews(List<MovieReviewsResponse> listReviews) {
+        if (listReviews != null) {
             int maxReviews = getResources().getInteger(R.integer.num_reviews_max);
             List<MovieReviewsResponse> list;
-            if(listReviews.size() >= 3){
-                list = listReviews.subList(0,maxReviews);
+            if (listReviews.size() >= 3) {
+                list = listReviews.subList(0, maxReviews);
             } else {
                 list = listReviews;
             }
-            mReviewAdapter = new ReviewAdapter(this,list);
+            mReviewAdapter = new ReviewAdapter(this, list);
             mReviewRV.setAdapter(mReviewAdapter);
             mReviewRV.setLayoutManager(new LinearLayoutManager(this));
         }
     }
 
     /**
-     *
      * @param listCast list of cast which will be used to populate the cast recycler view
      */
-    private void populateCast(List<MovieCreditsResponse> listCast){
-        if(listCast != null) {
-            mCastAdapter = new CastAdapter(this,listCast);
+    private void populateCast(List<MovieCreditsResponse> listCast) {
+        if (listCast != null) {
+            mCastAdapter = new CastAdapter(this, listCast);
             mCastRV.setAdapter(mCastAdapter);
-            mCastRV.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+            mCastRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
             mCastRV.setHorizontalFadingEdgeEnabled(true);
         }
     }
 
     /**
-     *
      * @param listSimilarMovie list of similar movies which will be suggested to the user
      */
-    private void populateSimilarMovies(List<MovieResponse> listSimilarMovie){
-        if(listSimilarMovie != null) {
-            mSimilarMovieAdapter = new SimilarMovieAdapter(this,listSimilarMovie);
+    private void populateSimilarMovies(List<MovieResponse> listSimilarMovie) {
+        if (listSimilarMovie != null) {
+            mSimilarMovieAdapter = new SimilarMovieAdapter(this, listSimilarMovie);
             mSimilarMovieRV.setAdapter(mSimilarMovieAdapter);
-            mSimilarMovieRV.setLayoutManager(new LinearLayoutManager(this, LinearLayout.HORIZONTAL,false));
+            mSimilarMovieRV.setLayoutManager(new LinearLayoutManager(this, LinearLayout.HORIZONTAL, false));
             mCastRV.setHorizontalFadingEdgeEnabled(true);
         }
     }
@@ -220,7 +240,8 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
      */
     @Override
     public void onError(String error) {
-
+        Log.i(getLocalClassName(),error);
+        closeOnError();
     }
 
     /**
@@ -231,8 +252,8 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
      */
     @Override
     public void onResponse(JSONObject response, String param) {
-        Log.i("JSON RESPONSE : " + param,response.toString());
-        switch (param){
+        Log.i("JSON RESPONSE : " + param, response.toString());
+        switch (param) {
             case NetworkUtils.PATH_PARAM_CREDITS:
                 populateCast(JSONUtils.getMovieCast(response));
                 break;
@@ -255,7 +276,8 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
      */
     @Override
     public void onResponse(JSONObject response) {
-
+        MovieResponse movie = JSONUtils.getMovieObject(response);
+        populateUI(movie);
     }
 
 }

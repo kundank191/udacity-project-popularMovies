@@ -24,12 +24,29 @@ public class JSONUtils {
                                 ,MOVIE_REVIEWS = "results"
                                 ,MOVIE_TRAILERS = "results"
                                 ,MOVIE_ID = "id"
-                                ,MOVIE_TITLE = "title"
+                                ,MOVIE_TITLE = "original_title"
                                 ,RELEASE_DATE = "release_date"
                                 ,POSTER_PATH = "poster_path"
                                 ,BACKDROP_PATH = "backdrop_path"
                                 ,SYNOPSIS = "overview";
 
+    /**
+     *
+     * @param root JSON object
+     * @return A movieResponse Object
+     */
+    public static MovieResponse getMovieObject(JSONObject root){
+        MovieResponse movie = null;
+        Gson gson = new Gson();
+        movie = gson.fromJson(root.toString(),MovieResponse.class);
+        return movie;
+    }
+
+    /**
+     *
+     * @param root the root JSON object
+     * @return a list of movies
+     */
     public static List<MovieResponse> getMovieList(JSONObject root){
         MovieResponse[] listMovies = null;
         Gson gson = new Gson();
