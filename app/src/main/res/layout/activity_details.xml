@@ -141,6 +141,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline" />
 
+        <!-- Group will be used to hide entire section when data is null -->
+        <android.support.constraint.Group
+            android:id="@+id/cast_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="tv_cast_title,rv_cast"/>
+
         <TextView
             android:id="@+id/tv_cast_title"
             style="@style/TitleTextView"
@@ -159,6 +166,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_cast_title"/>
+
+        <!-- Group will be used to hide entire section when data is null -->
+        <android.support.constraint.Group
+            android:id="@+id/review_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="tv_reviews_title,rv_reviews"/>
 
         <TextView
             android:id="@+id/tv_reviews_title"
