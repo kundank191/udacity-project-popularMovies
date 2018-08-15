@@ -21,8 +21,6 @@ import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.Utils.JSONUtils;
 import com.example.android.popularmovies.Utils.NetworkUtils;
 import com.example.android.popularmovies.data.network.MovieResponse;
-import com.example.android.popularmovies.ui.detail.MovieViewModel;
-import com.example.android.popularmovies.ui.detail.MovieViewModelFactory;
 import com.example.android.popularmovies.ui.Interfaces.JsonDataDownloadInterface;
 import com.example.android.popularmovies.ui.Interfaces.ListItemClickInterface;
 import com.example.android.popularmovies.ui.detail.DetailsActivity;
@@ -127,6 +125,12 @@ public class MainActivity extends AppCompatActivity implements JsonDataDownloadI
         showErrorUI();
     }
 
+    /**
+     * This method is triggered by the networkUtils class after receiving data
+     * This method gets specific data defined by params like similar movies and movie trailers
+     *
+     * @param response the response by the internet
+     */
     @Override
     public void onResponse(JSONObject response, String param) {
 
