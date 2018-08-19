@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.android.popularmovies.BuildConfig;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.Utils.JSONUtils;
 import com.example.android.popularmovies.Utils.NetworkUtils;
@@ -37,7 +38,7 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements JsonDataDownloadInterface, ListItemClickInterface {
 
-    private String API_KEY;
+    private String API_KEY = BuildConfig.Api_Key;
     final private int CODE_POPULAR_MOVIE = 123;
     final private int CODE_TOP_RATED_MOVIES = 126;
     final private int CODE_FAV_MOVIES = 129;
@@ -63,8 +64,6 @@ public class MainActivity extends AppCompatActivity implements JsonDataDownloadI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        API_KEY = getResources().getString(R.string.API_KEY);
 
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);

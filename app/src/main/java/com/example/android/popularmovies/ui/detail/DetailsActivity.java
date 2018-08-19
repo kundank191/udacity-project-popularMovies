@@ -19,13 +19,14 @@ import android.widget.Toast;
 
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.example.android.popularmovies.AppExecutors;
+import com.example.android.popularmovies.BuildConfig;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.Utils.GlideApp;
 import com.example.android.popularmovies.Utils.JSONUtils;
 import com.example.android.popularmovies.Utils.NetworkUtils;
+import com.example.android.popularmovies.data.MovieResponse;
 import com.example.android.popularmovies.data.database.AppDatabase;
 import com.example.android.popularmovies.data.network.MovieCreditsResponse;
-import com.example.android.popularmovies.data.MovieResponse;
 import com.example.android.popularmovies.data.network.MovieReviewsResponse;
 import com.example.android.popularmovies.data.network.MovieTrailersResponse;
 import com.example.android.popularmovies.ui.Interfaces.JsonDataDownloadInterface;
@@ -43,7 +44,7 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
 
     public static final String MOVIE_OBJECT_INTENT_KEY = "10123";
     public static final String MOVIE_ID_INTENT_KEY = "10122";
-    private String API_KEY;
+    private String API_KEY = BuildConfig.Api_Key;
     private MovieDetailViewModel mViewModel;
     private AppDatabase mDb;
     @BindView(R.id.custom_back_button)
@@ -90,8 +91,6 @@ public class DetailsActivity extends AppCompatActivity implements JsonDataDownlo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
-        //Getting the API KEY
-        API_KEY = getResources().getString(R.string.API_KEY);
         //Initialize
         init();
         //Check if viewModel Has data

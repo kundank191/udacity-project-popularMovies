@@ -16,6 +16,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    buildTypes.each {
+        //TODO setup your API_KEY first
+        // Get Key from here : https://developers.themoviedb.org/3/getting-started
+        // How to setUp key : https://medium.com/code-better/hiding-api-keys-from-your-android-repository-b23f5598b906
+        it.buildConfigField 'String','Api_Key',MovieDb_API_Key
+    }
     //using data binding to replace findViewById
     dataBinding.enabled = true
 }
