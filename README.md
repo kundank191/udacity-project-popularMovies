@@ -17,7 +17,6 @@ It displays a movieResponse list in main activity, two types of list of popular 
 
 ## Details Activity
 
-<img src="https://user-images.githubusercontent.com/26672993/45621561-6d879000-ba9e-11e8-998e-26f5677ff35a.png" width="300" height="550"/>        <img src="https://user-images.githubusercontent.com/26672993/45621564-6f515380-ba9e-11e8-84b7-de44f2f7a6b1.png" width="300" height="550"/>
 <img src="https://user-images.githubusercontent.com/26672993/45621573-75473480-ba9e-11e8-9132-a6158a162d6f.png" width="300" height="550"/>        <img src="https://user-images.githubusercontent.com/26672993/45621576-77a98e80-ba9e-11e8-9bca-7afb3bbb0702.png" width="300" height="550"/>
 
 
